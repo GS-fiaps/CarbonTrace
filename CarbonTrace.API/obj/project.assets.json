@@ -846,6 +846,22 @@
         "runtime": {
           "bin/placeholder/CarbonTrace.Domain.dll": {}
         }
+      },
+      "CarbonTrace.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "CarbonTrace.Application": "1.0.0",
+          "CarbonTrace.Domain": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "10.0.8",
+          "Oracle.EntityFrameworkCore": "10.23.26200"
+        },
+        "compile": {
+          "bin/placeholder/CarbonTrace.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CarbonTrace.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -2636,11 +2652,17 @@
       "type": "project",
       "path": "../CarbonTrace.Domain/CarbonTrace.Domain.csproj",
       "msbuildProject": "../CarbonTrace.Domain/CarbonTrace.Domain.csproj"
+    },
+    "CarbonTrace.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../CarbonTrace.Infrastructure/CarbonTrace.Infrastructure.csproj",
+      "msbuildProject": "../CarbonTrace.Infrastructure/CarbonTrace.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
       "CarbonTrace.Application >= 1.0.0",
+      "CarbonTrace.Infrastructure >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 10.0.5",
       "Microsoft.EntityFrameworkCore >= 10.0.8",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.8",
@@ -2676,6 +2698,9 @@
           "projectReferences": {
             "E:\\2TDSPG\\Global Solution\\CarbonTrace\\CarbonTrace.Application\\CarbonTrace.Application.csproj": {
               "projectPath": "E:\\2TDSPG\\Global Solution\\CarbonTrace\\CarbonTrace.Application\\CarbonTrace.Application.csproj"
+            },
+            "E:\\2TDSPG\\Global Solution\\CarbonTrace\\CarbonTrace.Infrastructure\\CarbonTrace.Infrastructure.csproj": {
+              "projectPath": "E:\\2TDSPG\\Global Solution\\CarbonTrace\\CarbonTrace.Infrastructure\\CarbonTrace.Infrastructure.csproj"
             }
           }
         }
