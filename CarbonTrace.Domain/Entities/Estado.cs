@@ -4,8 +4,8 @@ namespace CarbonTrace.Domain.Entities;
 
 public class Estado(string nome, string sigla)  : BaseEntity
 {
-    private string Nome { get; set; }
-    private string Sigla { get; set; }
+    public string Nome { get; set; }
+    public string Sigla { get; set; }
     
     
     // 1:N
