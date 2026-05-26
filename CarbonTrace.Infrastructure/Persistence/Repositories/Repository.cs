@@ -67,4 +67,13 @@ public class Repository<T>(CarbonTraceContext context) : IRepository<T> where T 
         Context.SaveChanges();
         return true;
     }
+    
+    /// <inheritdoc />
+    public T Update(T entity)
+    {
+        ArgumentNullException.ThrowIfNull(entity);
+        _set.Update(entity);
+        Context.SaveChanges();
+        return entity;
+    }
 }

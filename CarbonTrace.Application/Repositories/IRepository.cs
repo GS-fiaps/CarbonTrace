@@ -10,5 +10,6 @@ public interface IRepository<T> where T : class
     T? GetById(Guid id);
     T Add(T entity);
     bool Delete(Guid id);
+    T Update(T entity);
     bool ExistsById(Guid id);
 }
