@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CarbonTrace.Infrastructure.Persistence.Configurations;
 
-/// <summary>
-/// Configuração EF para a entidade Relatorio
-/// </summary>
 public sealed class RelatorioConfiguration : IEntityTypeConfiguration<Relatorio>
 {
     public void Configure(EntityTypeBuilder<Relatorio> builder)
@@ -17,11 +14,12 @@ public sealed class RelatorioConfiguration : IEntityTypeConfiguration<Relatorio>
 
         builder.Property(r => r.Id)
             .HasColumnName("ID_RELATORIO")
+            .HasColumnType("VARCHAR2(36)")
             .ValueGeneratedOnAdd();
 
         builder.Property(r => r.Titulo)
             .HasColumnName("TITULO")
-            .HasMaxLength(300)
+            .HasColumnType("VARCHAR2(300)")
             .IsRequired();
 
         builder.Property(r => r.DataGeracao)
@@ -38,18 +36,19 @@ public sealed class RelatorioConfiguration : IEntityTypeConfiguration<Relatorio>
 
         builder.Property(r => r.IdUsuario)
             .HasColumnName("ID_USUARIO")
+            .HasColumnType("VARCHAR2(36)")
             .IsRequired();
 
         builder.Property(r => r.Active)
-            .HasColumnName("ACTIVE");
+            .HasColumnName("ACTIVE")
+            .HasColumnType("NUMBER(1)");
 
         builder.Property(r => r.CreatedAt)
             .HasColumnName("CREATED_AT");
 
-        // N:1 com Usuario
         builder.HasOne(r => r.Usuario)
             .WithMany(u => u.Relatorios)
             .HasForeignKey(r => r.IdUsuario)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

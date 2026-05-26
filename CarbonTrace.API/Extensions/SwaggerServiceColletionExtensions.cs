@@ -14,7 +14,7 @@ public static class SwaggerServiceColletionExtensions
     /// <param name="services">Coleção de serviços.</param>
     /// <param name="configuration">Configuração da aplicação.</param>
     /// <returns>A mesma instância para encadeamento.</returns>
-    public static IServiceCollection addCarbonTraceSwagger(
+    public static IServiceCollection AddCarbonTraceSwagger(
         this IServiceCollection services,
         IConfiguration configuration)
     {

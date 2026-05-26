@@ -2,7 +2,6 @@
 using CarbonTrace.Application.Services.Implementations;
 using CarbonTrace.Application.Services.Interfaces;
 using CarbonTrace.Infrastructure;
-using CarbonTrace.Infrastructure.Persistence;
 using CarbonTrace.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,9 +22,10 @@ public static class CarbonTraceServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("OracleConnection")
+        var connectionString = configuration.GetConnectionString("CarbonTraceOracle")
+            ?? configuration.GetConnectionString("OracleConnection")
             ?? throw new InvalidOperationException(
-                "Connection string 'OracleConnection' não encontrada. Configure em appsettings.json ou no ambiente.");
+                "Connection string 'CarbonTraceOracle' (ou 'OracleConnection') não encontrada. Configure em appsettings.json ou no ambiente.");
 
         services.AddDbContext<CarbonTraceContext>(options =>
             options.UseOracle(connectionString));

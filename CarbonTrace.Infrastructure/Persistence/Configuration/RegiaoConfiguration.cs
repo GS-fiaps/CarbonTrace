@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CarbonTrace.Infrastructure.Persistence.Configurations;
 
-/// <summary>
-/// Configuração EF para a entidade Regiao
-/// </summary>
 public sealed class RegiaoConfiguration : IEntityTypeConfiguration<Regiao>
 {
     public void Configure(EntityTypeBuilder<Regiao> builder)
@@ -17,11 +14,12 @@ public sealed class RegiaoConfiguration : IEntityTypeConfiguration<Regiao>
 
         builder.Property(r => r.Id)
             .HasColumnName("ID_REGIAO")
+            .HasColumnType("VARCHAR2(36)")
             .ValueGeneratedOnAdd();
 
         builder.Property(r => r.Nome)
             .HasColumnName("NOME")
-            .HasMaxLength(150)
+            .HasColumnType("VARCHAR2(150)")
             .IsRequired();
 
         builder.Property(r => r.Latitude)
@@ -38,30 +36,29 @@ public sealed class RegiaoConfiguration : IEntityTypeConfiguration<Regiao>
 
         builder.Property(r => r.IdEstado)
             .HasColumnName("ID_ESTADO")
+            .HasColumnType("VARCHAR2(36)")
             .IsRequired();
 
         builder.Property(r => r.Active)
-            .HasColumnName("ACTIVE");
+            .HasColumnName("ACTIVE")
+            .HasColumnType("NUMBER(1)");
 
         builder.Property(r => r.CreatedAt)
             .HasColumnName("CREATED_AT");
 
-        // N:1 com Estado
         builder.HasOne(r => r.Estado)
             .WithMany(e => e.Regioes)
             .HasForeignKey(r => r.IdEstado)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
-        // 1:N com ImagemSatelital
         builder.HasMany(r => r.ImagensSatelitais)
             .WithOne(i => i.Regiao)
             .HasForeignKey(i => i.IdRegiao)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
-        // 1:N com Ocorrencia
         builder.HasMany(r => r.Ocorrencias)
             .WithOne(o => o.Regiao)
             .HasForeignKey(o => o.IdRegiao)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

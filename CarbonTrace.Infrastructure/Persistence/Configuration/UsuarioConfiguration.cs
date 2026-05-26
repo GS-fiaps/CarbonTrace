@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CarbonTrace.Infrastructure.Persistence.Configurations;
 
-/// <summary>
-/// Configuração EF para a entidade Usuario
-/// </summary>
 public sealed class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
 {
     public void Configure(EntityTypeBuilder<Usuario> builder)
@@ -17,16 +14,17 @@ public sealed class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
 
         builder.Property(u => u.Id)
             .HasColumnName("ID_USUARIO")
+            .HasColumnType("VARCHAR2(36)")
             .ValueGeneratedOnAdd();
 
         builder.Property(u => u.Nome)
             .HasColumnName("NOME")
-            .HasMaxLength(150)
+            .HasColumnType("VARCHAR2(150)")
             .IsRequired();
 
         builder.Property(u => u.Email)
             .HasColumnName("EMAIL")
-            .HasMaxLength(200)
+            .HasColumnType("VARCHAR2(200)")
             .IsRequired();
 
         builder.HasIndex(u => u.Email)
@@ -34,13 +32,13 @@ public sealed class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
 
         builder.Property(u => u.Senha)
             .HasColumnName("SENHA")
-            .HasMaxLength(255)
+            .HasColumnType("VARCHAR2(255)")
             .IsRequired();
 
         builder.Property(u => u.TipoUsuario)
             .HasColumnName("TIPO_USUARIO")
+            .HasColumnType("VARCHAR2(20)")
             .HasConversion<string>()
-            .HasMaxLength(20)
             .IsRequired();
 
         builder.Property(u => u.DataCadastro)
@@ -48,21 +46,20 @@ public sealed class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
             .IsRequired();
 
         builder.Property(u => u.Active)
-            .HasColumnName("ACTIVE");
+            .HasColumnName("ACTIVE")
+            .HasColumnType("NUMBER(1)");
 
         builder.Property(u => u.CreatedAt)
             .HasColumnName("CREATED_AT");
 
-        // 1:N com Ocorrencia
         builder.HasMany(u => u.Ocorrencias)
             .WithOne(o => o.Usuario)
             .HasForeignKey(o => o.IdUsuario)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
-        // 1:N com Relatorio
         builder.HasMany(u => u.Relatorios)
             .WithOne(r => r.Usuario)
             .HasForeignKey(r => r.IdUsuario)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
