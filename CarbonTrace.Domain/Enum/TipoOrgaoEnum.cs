@@ -1,6 +1,6 @@
 ﻿namespace CarbonTrace.Domain.Enum;
 
-public enum OrgaoEnum
+public enum TipoOrgaoEnum
 {
     FEDERAL,
     ESTADUAL,

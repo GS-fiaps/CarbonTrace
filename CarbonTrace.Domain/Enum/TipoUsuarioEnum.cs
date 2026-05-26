@@ -1,6 +1,6 @@
 ﻿namespace CarbonTrace.Domain.Enum;
 
-public enum UsuarioEnum
+public enum TipoUsuarioEnum
 {
     ADMIN,
     ANALISTA,
