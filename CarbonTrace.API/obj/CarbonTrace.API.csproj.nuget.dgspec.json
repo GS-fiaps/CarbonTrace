@@ -75,7 +75,7 @@
               "target": "Package",
               "version": "[10.23.26200, )"
             },
-            "Swashbuckle.AspNetCore.SwaggerGen": {
+            "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[10.1.7, )"
             }
