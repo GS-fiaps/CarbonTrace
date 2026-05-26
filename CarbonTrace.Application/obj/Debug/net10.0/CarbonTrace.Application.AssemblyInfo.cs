@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CarbonTrace.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c9d6cddc3684c8e58bff1bee4c7218f29b5b22a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+75df06e35355dc21548e2736b01835518e2d58eb")]
 [assembly: System.Reflection.AssemblyProductAttribute("CarbonTrace.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CarbonTrace.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
