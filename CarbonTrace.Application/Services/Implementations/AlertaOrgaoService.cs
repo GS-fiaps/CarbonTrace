@@ -49,6 +49,17 @@ public sealed class AlertaOrgaoService(IAlertaOrgaoRepository alertaOrgaoReposit
     }
 
     /// <inheritdoc />
+    public AlertaOrgaoResponse? Update(Guid id, AlertaOrgaoRequest request)
+    {
+        var alertaOrgao = alertaOrgaoRepository.GetById(id);
+        if (alertaOrgao is null)
+            return null;
+        alertaOrgao.Update(request.StatusNotificacao);
+        alertaOrgaoRepository.Update(alertaOrgao);
+        return AlertaOrgaoResponse.FromDomain(alertaOrgao);
+    }
+
+    /// <inheritdoc />
     public bool Delete(Guid id)
     {
         return alertaOrgaoRepository.Delete(id);

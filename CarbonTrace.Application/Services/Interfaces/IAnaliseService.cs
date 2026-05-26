@@ -11,5 +11,6 @@ public interface IAnaliseService
     AnaliseResponse? GetById(Guid id);
     IReadOnlyList<AnaliseResponse> GetByImagem(Guid idImagem);
     AnaliseResponse Create(AnaliseRequest request);
+    AnaliseResponse? Update(Guid id, AnaliseRequest request);
     bool Delete(Guid id);
 }

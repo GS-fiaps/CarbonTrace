@@ -33,6 +33,17 @@ public sealed class UsuarioService(IUsuarioRepository usuarioRepository) : IUsua
     }
 
     /// <inheritdoc />
+    public UsuarioResponse? Update(Guid id, UsuarioRequest request)
+    {
+        var usuario = usuarioRepository.GetById(id);
+        if (usuario is null)
+            return null;
+        usuario.Update(request.Nome, request.Email, request.Senha, request.TipoUsuario);
+        usuarioRepository.Update(usuario);
+        return UsuarioResponse.FromDomain(usuario);
+    }
+
+    /// <inheritdoc />
     public bool Delete(Guid id)
     {
         return usuarioRepository.Delete(id);

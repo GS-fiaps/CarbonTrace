@@ -12,5 +12,6 @@ public interface IAlertaOrgaoService
     IReadOnlyList<AlertaOrgaoResponse> GetByAlerta(Guid idAlerta);
     IReadOnlyList<AlertaOrgaoResponse> GetByOrgao(Guid idOrgao);
     AlertaOrgaoResponse Create(AlertaOrgaoRequest request);
+    AlertaOrgaoResponse? Update(Guid id, AlertaOrgaoRequest request);
     bool Delete(Guid id);
 }

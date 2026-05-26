@@ -33,6 +33,17 @@ public sealed class SateliteService(ISateliteRepository sateliteRepository) : IS
     }
 
     /// <inheritdoc />
+    public SateliteResponse? Update(Guid id, SateliteRequest request)
+    {
+        var satelite = sateliteRepository.GetById(id);
+        if (satelite is null)
+            return null;
+        satelite.Update(request.Nome, request.Agencia, request.AltitudeKm, request.AnoLancamento);
+        sateliteRepository.Update(satelite);
+        return SateliteResponse.FromDomain(satelite);
+    }
+
+    /// <inheritdoc />
     public bool Delete(Guid id)
     {
         return sateliteRepository.Delete(id);

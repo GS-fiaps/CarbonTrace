@@ -11,5 +11,6 @@ public interface IRegiaoService
     RegiaoResponse? GetById(Guid id);
     IReadOnlyList<RegiaoResponse> GetByEstado(Guid idEstado);
     RegiaoResponse Create(RegiaoRequest request);
+    RegiaoResponse? Update(Guid id, RegiaoRequest request);
     bool Delete(Guid id);
 }

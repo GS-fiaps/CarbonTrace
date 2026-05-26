@@ -12,5 +12,6 @@ public interface IOcorrenciaService
     IReadOnlyList<OcorrenciaResponse> GetByRegiao(Guid idRegiao);
     IReadOnlyList<OcorrenciaResponse> GetByUsuario(Guid idUsuario);
     OcorrenciaResponse Create(OcorrenciaRequest request);
+    OcorrenciaResponse? Update(Guid id, OcorrenciaRequest request);
     bool Delete(Guid id);
 }

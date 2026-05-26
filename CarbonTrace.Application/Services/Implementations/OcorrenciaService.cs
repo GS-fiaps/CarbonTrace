@@ -49,6 +49,17 @@ public sealed class OcorrenciaService(IOcorrenciaRepository ocorrenciaRepository
     }
 
     /// <inheritdoc />
+    public OcorrenciaResponse? Update(Guid id, OcorrenciaRequest request)
+    {
+        var ocorrencia = ocorrenciaRepository.GetById(id);
+        if (ocorrencia is null)
+            return null;
+        ocorrencia.Update(request.DataOcorrencia, request.Descricao, request.AreaEstimadaKm2);
+        ocorrenciaRepository.Update(ocorrencia);
+        return OcorrenciaResponse.FromDomain(ocorrencia);
+    }
+
+    /// <inheritdoc />
     public bool Delete(Guid id)
     {
         return ocorrenciaRepository.Delete(id);

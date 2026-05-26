@@ -10,5 +10,6 @@ public interface ISateliteService
     IReadOnlyList<SateliteResponse> GetAll();
     SateliteResponse? GetById(Guid id);
     SateliteResponse Create(SateliteRequest request);
+    SateliteResponse? Update(Guid id, SateliteRequest request);
     bool Delete(Guid id);
 }

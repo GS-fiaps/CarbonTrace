@@ -11,5 +11,6 @@ public interface IRelatorioService
     RelatorioResponse? GetById(Guid id);
     IReadOnlyList<RelatorioResponse> GetByUsuario(Guid idUsuario);
     RelatorioResponse Create(RelatorioRequest request);
+    RelatorioResponse? Update(Guid id, RelatorioRequest request);
     bool Delete(Guid id);
 }

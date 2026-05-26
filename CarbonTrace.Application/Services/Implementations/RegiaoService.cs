@@ -41,6 +41,17 @@ public sealed class RegiaoService(IRegiaoRepository regiaoRepository) : IRegiaoS
     }
 
     /// <inheritdoc />
+    public RegiaoResponse? Update(Guid id, RegiaoRequest request)
+    {
+        var regiao = regiaoRepository.GetById(id);
+        if (regiao is null)
+            return null;
+        regiao.Update(request.Nome, request.Latitude, request.Longitude, request.AreaKm2);
+        regiaoRepository.Update(regiao);
+        return RegiaoResponse.FromDomain(regiao);
+    }
+
+    /// <inheritdoc />
     public bool Delete(Guid id)
     {
         return regiaoRepository.Delete(id);

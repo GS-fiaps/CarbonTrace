@@ -11,5 +11,6 @@ public interface IAlertaService
     AlertaResponse? GetById(Guid id);
     IReadOnlyList<AlertaResponse> GetByAnalise(Guid idAnalise);
     AlertaResponse Create(AlertaRequest request);
+    AlertaResponse? Update(Guid id, AlertaRequest request);
     bool Delete(Guid id);
 }

@@ -41,6 +41,17 @@ public sealed class AlertaService(IAlertaRepository alertaRepository) : IAlertaS
     }
 
     /// <inheritdoc />
+    public AlertaResponse? Update(Guid id, AlertaRequest request)
+    {
+        var alerta = alertaRepository.GetById(id);
+        if (alerta is null)
+            return null;
+        alerta.Update(request.NivelCriticidade, request.Descricao);
+        alertaRepository.Update(alerta);
+        return AlertaResponse.FromDomain(alerta);
+    }
+
+    /// <inheritdoc />
     public bool Delete(Guid id)
     {
         return alertaRepository.Delete(id);

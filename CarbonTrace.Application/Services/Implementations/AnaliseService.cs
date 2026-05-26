@@ -41,6 +41,17 @@ public sealed class AnaliseService(IAnaliseRepository analiseRepository) : IAnal
     }
 
     /// <inheritdoc />
+    public AnaliseResponse? Update(Guid id, AnaliseRequest request)
+    {
+        var analise = analiseRepository.GetById(id);
+        if (analise is null)
+            return null;
+        analise.Update(request.DataAnalise, request.AreaDesmatadaKm2, request.PercentualVariacao, request.StatusAlerta);
+        analiseRepository.Update(analise);
+        return AnaliseResponse.FromDomain(analise);
+    }
+
+    /// <inheritdoc />
     public bool Delete(Guid id)
     {
         return analiseRepository.Delete(id);

@@ -11,5 +11,6 @@ public interface IImagemSatelitalService
     ImagemSatelitalResponse? GetById(Guid id);
     IReadOnlyList<ImagemSatelitalResponse> GetByRegiao(Guid idRegiao);
     ImagemSatelitalResponse Create(ImagemSatelitalRequest request);
+    ImagemSatelitalResponse? Update(Guid id, ImagemSatelitalRequest request);
     bool Delete(Guid id);
 }

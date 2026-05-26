@@ -41,6 +41,17 @@ public sealed class ImagemSatelitalService(IImagemSatelitalRepository imagemRepo
     }
 
     /// <inheritdoc />
+    public ImagemSatelitalResponse? Update(Guid id, ImagemSatelitalRequest request)
+    {
+        var imagem = imagemRepository.GetById(id);
+        if (imagem is null)
+            return null;
+        imagem.Update(request.DataCaptura, request.ResolucaoMetros, request.UrlImagem);
+        imagemRepository.Update(imagem);
+        return ImagemSatelitalResponse.FromDomain(imagem);
+    }
+
+    /// <inheritdoc />
     public bool Delete(Guid id)
     {
         return imagemRepository.Delete(id);

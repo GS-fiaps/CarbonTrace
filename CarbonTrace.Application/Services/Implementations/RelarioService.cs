@@ -41,6 +41,17 @@ public sealed class RelatorioService(IRelatorioRepository relatorioRepository) :
     }
 
     /// <inheritdoc />
+    public RelatorioResponse? Update(Guid id, RelatorioRequest request)
+    {
+        var relatorio = relatorioRepository.GetById(id);
+        if (relatorio is null)
+            return null;
+        relatorio.Update(request.Titulo, request.PeriodoInicio, request.PeriodoFim);
+        relatorioRepository.Update(relatorio);
+        return RelatorioResponse.FromDomain(relatorio);
+    }
+
+    /// <inheritdoc />
     public bool Delete(Guid id)
     {
         return relatorioRepository.Delete(id);

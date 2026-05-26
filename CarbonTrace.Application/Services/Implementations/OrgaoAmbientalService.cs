@@ -41,6 +41,17 @@ public sealed class OrgaoAmbientalService(IOrgaoAmbientalRepository orgaoReposit
     }
 
     /// <inheritdoc />
+    public OrgaoAmbientalResponse? Update(Guid id, OrgaoAmbientalRequest request)
+    {
+        var orgao = orgaoRepository.GetById(id);
+        if (orgao is null)
+            return null;
+        orgao.Update(request.Nome, request.Tipo, request.EmailContato);
+        orgaoRepository.Update(orgao);
+        return OrgaoAmbientalResponse.FromDomain(orgao);
+    }
+
+    /// <inheritdoc />
     public bool Delete(Guid id)
     {
         return orgaoRepository.Delete(id);
