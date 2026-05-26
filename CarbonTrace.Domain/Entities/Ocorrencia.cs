@@ -16,4 +16,11 @@ public sealed class Ocorrencia(DateTime dataOcorrencia, string descricao, double
     public Usuario Usuario { get; private set; } = null!;
 
     private Ocorrencia() : this(DateTime.UtcNow, string.Empty, 0, Guid.Empty, Guid.Empty) { }
+    
+    public void Update(DateTime dataOcorrencia, string descricao, double areaEstimadaKm2)
+    {
+        DataOcorrencia = dataOcorrencia;
+        Descricao = descricao.Trim();
+        AreaEstimadaKm2 = areaEstimadaKm2;
+    }
 }

@@ -19,4 +19,11 @@ public sealed class ImagemSatelital(DateTime dataCaptura, double resolucaoMetros
     public List<Analise> Analises { get; set; } = [];
 
     private ImagemSatelital() : this(DateTime.UtcNow, 0, string.Empty, Guid.Empty, Guid.Empty) { }
+    
+    public void Update(DateTime dataCaptura, double resolucaoMetros, string urlImagem)
+    {
+        DataCaptura = dataCaptura;
+        ResolucaoMetros = resolucaoMetros;
+        UrlImagem = urlImagem.Trim();
+    }
 }

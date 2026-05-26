@@ -18,4 +18,12 @@ public sealed class Regiao(string nome, double latitude, double longitude, doubl
     public List<Ocorrencia> Ocorrencias { get; set; } = [];
 
     private Regiao() : this(string.Empty, 0, 0, 0, Guid.Empty) { }
+    
+    public void Update(string nome, double latitude, double longitude, double areaKm2)
+    {
+        Nome = nome.Trim();
+        Latitude = latitude;
+        Longitude = longitude;
+        AreaKm2 = areaKm2;
+    }
 }

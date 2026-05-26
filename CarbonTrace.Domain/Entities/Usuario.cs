@@ -16,4 +16,12 @@ public sealed class Usuario(string nome, string email, string senha, TipoUsuario
     public List<Relatorio> Relatorios { get; set; } = [];
 
     private Usuario() : this(string.Empty, string.Empty, string.Empty,TipoUsuarioEnum.FISCAL) { }
+    
+    public void Update(string nome, string email, string senha, TipoUsuarioEnum tipoUsuario)
+    {
+        Nome = nome.Trim();
+        Email = email.Trim().ToLowerInvariant();
+        Senha = senha;
+        TipoUsuario = tipoUsuario;
+    }
 }

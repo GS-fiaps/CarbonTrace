@@ -14,4 +14,9 @@ public class Estado(string nome, string sigla)  : BaseEntity
 
     private Estado() : this(string.Empty, string.Empty) { }
     
+    public void Update(string nome, string sigla)
+    {
+        Nome = nome.Trim();
+        Sigla = sigla.Trim().ToUpperInvariant();
+    }
 }

@@ -17,4 +17,11 @@ public sealed class OrgaoAmbiental(string nome, TipoOrgaoEnum tipo, string email
     public List<AlertaOrgao> AlertasOrgaos { get; set; } = [];
 
     private OrgaoAmbiental() : this(string.Empty, TipoOrgaoEnum.FEDERAL, string.Empty, Guid.Empty) { }
+    
+    public void Update(string nome, TipoOrgaoEnum tipo, string emailContato)
+    {
+        Nome = nome.Trim();
+        Tipo = tipo;
+        EmailContato = emailContato.Trim().ToLowerInvariant();
+    }
 }

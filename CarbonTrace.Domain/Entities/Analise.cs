@@ -18,4 +18,12 @@ public sealed class Analise(DateTime dataAnalise, double areaDesmatadaKm2, doubl
     public List<Alerta> Alertas { get; set; } = [];
 
     private Analise() : this(DateTime.UtcNow, 0, 0, StatusAlertaEnum.NORMAL, Guid.Empty) { }
+    
+    public void Update(DateTime dataAnalise, double areaDesmatadaKm2, double percentualVariacao, StatusAlertaEnum statusAlerta)
+    {
+        DataAnalise = dataAnalise;
+        AreaDesmatadaKm2 = areaDesmatadaKm2;
+        PercentualVariacao = percentualVariacao;
+        StatusAlerta = statusAlerta;
+    }
 }

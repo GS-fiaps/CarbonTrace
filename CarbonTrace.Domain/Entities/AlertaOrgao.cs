@@ -16,4 +16,9 @@ public sealed class AlertaOrgao(Guid idAlerta, Guid idOrgao, StatusNotificacaoEn
     public OrgaoAmbiental OrgaoAmbiental { get; private set; } = null!;
 
     private AlertaOrgao() : this(Guid.Empty, Guid.Empty, StatusNotificacaoEnum.PENDENTE) { }
+    
+    public void Update(StatusNotificacaoEnum statusNotificacao)
+    {
+        StatusNotificacao = statusNotificacao;
+    }
 }

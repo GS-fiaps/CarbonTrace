@@ -17,4 +17,10 @@ public sealed class Alerta(DateTime dataEmissao, NivelCriticidadeEnum nivelCriti
     public List<AlertaOrgao> AlertasOrgaos { get; set; } = [];
 
     private Alerta() : this(DateTime.UtcNow, NivelCriticidadeEnum.BAIXO, string.Empty, Guid.Empty) { }
+    
+    public void Update(NivelCriticidadeEnum nivelCriticidade, string descricao)
+    {
+        NivelCriticidade = nivelCriticidade;
+        Descricao = descricao.Trim();
+    }
 }

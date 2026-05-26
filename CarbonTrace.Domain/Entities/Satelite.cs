@@ -13,4 +13,12 @@ public sealed class Satelite(string nome, string agencia, double altitudeKm, int
     public List<ImagemSatelital> ImagensSatelitais { get; set; } = [];
 
     private Satelite() : this(string.Empty, string.Empty, 0, 0) { }
+    
+    public void Update(string nome, string agencia, double altitudeKm, int anoLancamento)
+    {
+        Nome = nome.Trim();
+        Agencia = agencia.Trim();
+        AltitudeKm = altitudeKm;
+        AnoLancamento = anoLancamento;
+    }
 }
