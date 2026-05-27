@@ -1,19 +1,10 @@
 ﻿using System.Reflection;
 using Microsoft.OpenApi;
 
-namespace CarbonTrace.Extensions;
+namespace CarbonTrace.API.Extensions;
 
-/// <summary>
-/// Configuração do Swagger/OpenAPI com interface Swagger UI via Swashbuckle.
-/// </summary>
 public static class SwaggerServiceColletionExtensions
 {
-    /// <summary>
-    /// Adiciona geração de documento OpenAPI e metadados para o Swagger UI.
-    /// </summary>
-    /// <param name="services">Coleção de serviços.</param>
-    /// <param name="configuration">Configuração da aplicação.</param>
-    /// <returns>A mesma instância para encadeamento.</returns>
     public static IServiceCollection AddCarbonTraceSwagger(
         this IServiceCollection services,
         IConfiguration configuration)
@@ -25,7 +16,37 @@ public static class SwaggerServiceColletionExtensions
                 Title = configuration.GetSection("Swagger:Title").Value ?? "CarbonTrace API",
                 Version = configuration.GetSection("Swagger:Version").Value ?? "v1",
                 Description = configuration.GetSection("Swagger:Description").Value
-                              ?? "API para acompanhamento e análise de emissões de carbono, além dá detecção automatica de áreas desmatadas comparando imagens satelitais ao longo do tempo.",
+                              ?? "API para monitoramento de desmatamento via satélite."
+            });
+
+            var order = new List<string>
+            {
+                "Estado",
+                "Satelite",
+                "Usuario",
+                "Regiao",
+                "OrgaoAmbiental",
+                "ImagemSatelital",
+                "Analise",
+                "Alerta",
+                "Ocorrencia",
+                "Relatorio",
+                "AlertaOrgao"
+            };
+
+            options.TagActionsBy(api =>
+            {
+                var tag = api.GroupName ?? api.ActionDescriptor.RouteValues["controller"] ?? "Other";
+                return [tag];
+            });
+
+            options.OrderActionsBy(api =>
+            {
+                var controller = api.ActionDescriptor.RouteValues["controller"] ?? "";
+                var index = order.IndexOf(controller);
+                return index == -1
+                    ? $"{order.Count}_{controller}"
+                    : $"{index:D2}_{controller}";
             });
 
             var xml = Path.Combine(
@@ -36,6 +57,7 @@ public static class SwaggerServiceColletionExtensions
             if (File.Exists(xml))
                 options.IncludeXmlComments(xml, includeControllerXmlComments: true);
         });
+
         return services;
     }
 }

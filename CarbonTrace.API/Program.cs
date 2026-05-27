@@ -1,5 +1,5 @@
 using CarbonTrace.API.Extensions;
-using CarbonTrace.Extensions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +7,13 @@ builder.Services.AddCarbonTraceDbContext(builder.Configuration);
 builder.Services.AddCarbonTraceRepositories();
 builder.Services.AddCarbonTraceApplicationServices();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(
+            new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCarbonTraceSwagger(builder.Configuration);
 
