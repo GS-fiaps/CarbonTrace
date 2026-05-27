@@ -1,0 +1,704 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CarbonTrace.API</name>
+    </assembly>
+    <members>
+        <member name="T:CarbonTrace.API.Controllers.AlertaController">
+            <summary>
+            Gerenciamento dos alertas de desmatamento emitidos pelo CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaController.#ctor(CarbonTrace.Application.Services.Interfaces.IAlertaService)">
+            <summary>
+            Gerenciamento dos alertas de desmatamento emitidos pelo CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaController.GetAll">
+            <summary>
+            Lista todos os alertas.
+            </summary>
+            <response code="200">Lista retornada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaController.GetById(System.Guid)">
+            <summary>
+            Obtém um alerta pelo Id.
+            </summary>
+            <param name="id">Identificador do alerta.</param>
+            <response code="200">Encontrado.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaController.GetByAnalise(System.Guid)">
+            <summary>
+            Lista alertas por análise.
+            </summary>
+            <param name="analiseId">Id da análise.</param>
+            <response code="200">Lista (pode ser vazia).</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaController.Create(CarbonTrace.Application.DTOs.AlertaRequest)">
+            <summary>
+            Cria um novo alerta.
+            </summary>
+            <param name="request">Dados do alerta.</param>
+            <response code="201">Alerta criado.</response>
+            <response code="400">Validação inválida.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaController.Update(System.Guid,CarbonTrace.Application.DTOs.AlertaRequest)">
+            <summary>
+            Atualiza um alerta pelo Id.
+            </summary>
+            <param name="id">Identificador do alerta.</param>
+            <param name="request">Dados atualizados.</param>
+            <response code="200">Atualizado.</response>
+            <response code="400">Validação inválida.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaController.Delete(System.Guid)">
+            <summary>
+            Remove um alerta pelo Id.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <response code="204">Removido.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="T:CarbonTrace.API.Controllers.AlertaOrgaoController">
+            <summary>
+            Gerenciamento das notificações de alertas para órgãos ambientais.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaOrgaoController.#ctor(CarbonTrace.Application.Services.Interfaces.IAlertaOrgaoService)">
+            <summary>
+            Gerenciamento das notificações de alertas para órgãos ambientais.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaOrgaoController.GetAll">
+            <summary>
+            Lista todas as notificações.
+            </summary>
+            <response code="200">Lista retornada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaOrgaoController.GetById(System.Guid)">
+            <summary>
+            Obtém uma notificação pelo Id.
+            </summary>
+            <param name="id">Identificador da notificação.</param>
+            <response code="200">Encontrada.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaOrgaoController.GetByAlerta(System.Guid)">
+            <summary>
+            Lista notificações por alerta.
+            </summary>
+            <param name="alertaId">Id do alerta.</param>
+            <response code="200">Lista (pode ser vazia).</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaOrgaoController.GetByOrgao(System.Guid)">
+            <summary>
+            Lista notificações por órgão ambiental.
+            </summary>
+            <param name="orgaoId">Id do órgão ambiental.</param>
+            <response code="200">Lista (pode ser vazia).</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaOrgaoController.Create(CarbonTrace.Application.DTOs.AlertaOrgaoRequest)">
+            <summary>
+            Cria uma nova notificação de alerta para um órgão.
+            </summary>
+            <param name="request">Dados da notificação.</param>
+            <response code="201">Notificação criada.</response>
+            <response code="400">Validação inválida.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaOrgaoController.Update(System.Guid,CarbonTrace.Application.DTOs.AlertaOrgaoRequest)">
+            <summary>
+            Atualiza uma notificação pelo Id.
+            </summary>
+            <param name="id">Identificador da notificação.</param>
+            <param name="request">Dados atualizados.</param>
+            <response code="200">Atualizada.</response>
+            <response code="400">Validação inválida.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AlertaOrgaoController.Delete(System.Guid)">
+            <summary>
+            Remove uma notificação pelo Id.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <response code="204">Removida.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="T:CarbonTrace.API.Controllers.AnaliseController">
+            <summary>
+            Gerenciamento das análises de desmatamento do CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AnaliseController.#ctor(CarbonTrace.Application.Services.Interfaces.IAnaliseService)">
+            <summary>
+            Gerenciamento das análises de desmatamento do CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AnaliseController.GetAll">
+            <summary>
+            Lista todas as análises.
+            </summary>
+            <response code="200">Lista retornada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AnaliseController.GetById(System.Guid)">
+            <summary>
+            Obtém uma análise pelo Id.
+            </summary>
+            <param name="id">Identificador da análise.</param>
+            <response code="200">Encontrada.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AnaliseController.GetByImagem(System.Guid)">
+            <summary>
+            Lista análises por imagem satelital.
+            </summary>
+            <param name="imagemId">Id da imagem satelital.</param>
+            <response code="200">Lista (pode ser vazia).</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AnaliseController.Create(CarbonTrace.Application.DTOs.AnaliseRequest)">
+            <summary>
+            Cria uma nova análise.
+            </summary>
+            <param name="request">Dados da análise.</param>
+            <response code="201">Análise criada.</response>
+            <response code="400">Validação inválida.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AnaliseController.Update(System.Guid,CarbonTrace.Application.DTOs.AnaliseRequest)">
+            <summary>
+            Atualiza uma análise pelo Id.
+            </summary>
+            <param name="id">Identificador da análise.</param>
+            <param name="request">Dados atualizados.</param>
+            <response code="200">Atualizada.</response>
+            <response code="400">Validação inválida.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.AnaliseController.Delete(System.Guid)">
+            <summary>
+            Remove uma análise pelo Id.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <response code="204">Removida.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="T:CarbonTrace.API.Controllers.EstadoController">
+            <summary>
+            Gerenciamento dos estados brasileiros monitorados pelo CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.EstadoController.#ctor(CarbonTrace.Application.Services.Interfaces.IEstadoService)">
+            <summary>
+            Gerenciamento dos estados brasileiros monitorados pelo CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.EstadoController.GetAll">
+            <summary>
+            Lista todos os estados.
+            </summary>
+            <response code="200">Lista retornada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.EstadoController.GetById(System.Guid)">
+            <summary>
+            Obtém um estado pelo Id.
+            </summary>
+            <param name="id">Identificador do estado.</param>
+            <response code="200">Encontrado.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.EstadoController.Create(CarbonTrace.Application.DTOs.EstadoRequest)">
+            <summary>
+            Cria um novo estado.
+            </summary>
+            <param name="request">Nome e sigla do estado.</param>
+            <response code="201">Estado criado.</response>
+            <response code="400">Validação inválida.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.EstadoController.Update(System.Guid,CarbonTrace.Application.DTOs.EstadoRequest)">
+            <summary>
+            Atualiza um estado pelo Id.
+            </summary>
+            <param name="id">Identificador do estado.</param>
+            <param name="request">Dados atualizados.</param>
+            <response code="200">Atualizado.</response>
+            <response code="400">Validação inválida.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.EstadoController.Delete(System.Guid)">
+            <summary>
+            Remove um estado pelo Id.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <response code="204">Removido.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="T:CarbonTrace.API.Controllers.ImagemSatelitalController">
+            <summary>
+            Gerenciamento das imagens satelitais capturadas no CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.ImagemSatelitalController.#ctor(CarbonTrace.Application.Services.Interfaces.IImagemSatelitalService)">
+            <summary>
+            Gerenciamento das imagens satelitais capturadas no CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.ImagemSatelitalController.GetAll">
+            <summary>
+            Lista todas as imagens satelitais.
+            </summary>
+            <response code="200">Lista retornada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.ImagemSatelitalController.GetById(System.Guid)">
+            <summary>
+            Obtém uma imagem satelital pelo Id.
+            </summary>
+            <param name="id">Identificador da imagem.</param>
+            <response code="200">Encontrada.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.ImagemSatelitalController.GetByRegiao(System.Guid)">
+            <summary>
+            Lista imagens satelitais por região.
+            </summary>
+            <param name="regiaoId">Id da região.</param>
+            <response code="200">Lista (pode ser vazia).</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.ImagemSatelitalController.Create(CarbonTrace.Application.DTOs.ImagemSatelitalRequest)">
+            <summary>
+            Cria uma nova imagem satelital.
+            </summary>
+            <param name="request">Dados da imagem satelital.</param>
+            <response code="201">Imagem criada.</response>
+            <response code="400">Validação inválida.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.ImagemSatelitalController.Update(System.Guid,CarbonTrace.Application.DTOs.ImagemSatelitalRequest)">
+            <summary>
+            Atualiza uma imagem satelital pelo Id.
+            </summary>
+            <param name="id">Identificador da imagem.</param>
+            <param name="request">Dados atualizados.</param>
+            <response code="200">Atualizada.</response>
+            <response code="400">Validação inválida.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.ImagemSatelitalController.Delete(System.Guid)">
+            <summary>
+            Remove uma imagem satelital pelo Id.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <response code="204">Removida.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="T:CarbonTrace.API.Controllers.OcorrenciaController">
+            <summary>
+            Gerenciamento das ocorrências reportadas em campo no CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OcorrenciaController.#ctor(CarbonTrace.Application.Services.Interfaces.IOcorrenciaService)">
+            <summary>
+            Gerenciamento das ocorrências reportadas em campo no CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OcorrenciaController.GetAll">
+            <summary>
+            Lista todas as ocorrências.
+            </summary>
+            <response code="200">Lista retornada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OcorrenciaController.GetById(System.Guid)">
+            <summary>
+            Obtém uma ocorrência pelo Id.
+            </summary>
+            <param name="id">Identificador da ocorrência.</param>
+            <response code="200">Encontrada.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OcorrenciaController.GetByRegiao(System.Guid)">
+            <summary>
+            Lista ocorrências por região.
+            </summary>
+            <param name="regiaoId">Id da região.</param>
+            <response code="200">Lista (pode ser vazia).</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OcorrenciaController.GetByUsuario(System.Guid)">
+            <summary>
+            Lista ocorrências por usuário.
+            </summary>
+            <param name="usuarioId">Id do usuário.</param>
+            <response code="200">Lista (pode ser vazia).</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OcorrenciaController.Create(CarbonTrace.Application.DTOs.OcorrenciaRequest)">
+            <summary>
+            Cria uma nova ocorrência.
+            </summary>
+            <param name="request">Dados da ocorrência.</param>
+            <response code="201">Ocorrência criada.</response>
+            <response code="400">Validação inválida.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OcorrenciaController.Update(System.Guid,CarbonTrace.Application.DTOs.OcorrenciaRequest)">
+            <summary>
+            Atualiza uma ocorrência pelo Id.
+            </summary>
+            <param name="id">Identificador da ocorrência.</param>
+            <param name="request">Dados atualizados.</param>
+            <response code="200">Atualizada.</response>
+            <response code="400">Validação inválida.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OcorrenciaController.Delete(System.Guid)">
+            <summary>
+            Remove uma ocorrência pelo Id.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <response code="204">Removida.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="T:CarbonTrace.API.Controllers.OrgaoAmbientalController">
+            <summary>
+            Gerenciamento dos órgãos ambientais notificados pelo CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OrgaoAmbientalController.#ctor(CarbonTrace.Application.Services.Interfaces.IOrgaoAmbientalService)">
+            <summary>
+            Gerenciamento dos órgãos ambientais notificados pelo CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OrgaoAmbientalController.GetAll">
+            <summary>
+            Lista todos os órgãos ambientais.
+            </summary>
+            <response code="200">Lista retornada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OrgaoAmbientalController.GetById(System.Guid)">
+            <summary>
+            Obtém um órgão ambiental pelo Id.
+            </summary>
+            <param name="id">Identificador do órgão.</param>
+            <response code="200">Encontrado.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OrgaoAmbientalController.GetByEstado(System.Guid)">
+            <summary>
+            Lista órgãos ambientais por estado.
+            </summary>
+            <param name="estadoId">Id do estado.</param>
+            <response code="200">Lista (pode ser vazia).</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OrgaoAmbientalController.Create(CarbonTrace.Application.DTOs.OrgaoAmbientalRequest)">
+            <summary>
+            Cria um novo órgão ambiental.
+            </summary>
+            <param name="request">Dados do órgão ambiental.</param>
+            <response code="201">Órgão criado.</response>
+            <response code="400">Validação inválida.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OrgaoAmbientalController.Update(System.Guid,CarbonTrace.Application.DTOs.OrgaoAmbientalRequest)">
+            <summary>
+            Atualiza um órgão ambiental pelo Id.
+            </summary>
+            <param name="id">Identificador do órgão.</param>
+            <param name="request">Dados atualizados.</param>
+            <response code="200">Atualizado.</response>
+            <response code="400">Validação inválida.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.OrgaoAmbientalController.Delete(System.Guid)">
+            <summary>
+            Remove um órgão ambiental pelo Id.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <response code="204">Removido.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="T:CarbonTrace.API.Controllers.RegiaoController">
+            <summary>
+            Gerenciamento das regiões monitoradas pelo CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RegiaoController.#ctor(CarbonTrace.Application.Services.Interfaces.IRegiaoService)">
+            <summary>
+            Gerenciamento das regiões monitoradas pelo CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RegiaoController.GetAll">
+            <summary>
+            Lista todas as regiões.
+            </summary>
+            <response code="200">Lista retornada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RegiaoController.GetById(System.Guid)">
+            <summary>
+            Obtém uma região pelo Id.
+            </summary>
+            <param name="id">Identificador da região.</param>
+            <response code="200">Encontrada.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RegiaoController.GetByEstado(System.Guid)">
+            <summary>
+            Lista regiões por estado.
+            </summary>
+            <param name="estadoId">Id do estado.</param>
+            <response code="200">Lista (pode ser vazia).</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RegiaoController.Create(CarbonTrace.Application.DTOs.RegiaoRequest)">
+            <summary>
+            Cria uma nova região.
+            </summary>
+            <param name="request">Dados da região.</param>
+            <response code="201">Região criada.</response>
+            <response code="400">Validação inválida.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RegiaoController.Update(System.Guid,CarbonTrace.Application.DTOs.RegiaoRequest)">
+            <summary>
+            Atualiza uma região pelo Id.
+            </summary>
+            <param name="id">Identificador da região.</param>
+            <param name="request">Dados atualizados.</param>
+            <response code="200">Atualizada.</response>
+            <response code="400">Validação inválida.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RegiaoController.Delete(System.Guid)">
+            <summary>
+            Remove uma região pelo Id.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <response code="204">Removida.</response>
+            <response code="404">Não encontrada.</response>
+        </member>
+        <member name="T:CarbonTrace.API.Controllers.RelatorioController">
+            <summary>
+            Gerenciamento dos relatórios gerados no CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RelatorioController.#ctor(CarbonTrace.Application.Services.Interfaces.IRelatorioService)">
+            <summary>
+            Gerenciamento dos relatórios gerados no CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RelatorioController.GetAll">
+            <summary>
+            Lista todos os relatórios.
+            </summary>
+            <response code="200">Lista retornada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RelatorioController.GetById(System.Guid)">
+            <summary>
+            Obtém um relatório pelo Id.
+            </summary>
+            <param name="id">Identificador do relatório.</param>
+            <response code="200">Encontrado.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RelatorioController.GetByUsuario(System.Guid)">
+            <summary>
+            Lista relatórios por usuário.
+            </summary>
+            <param name="usuarioId">Id do usuário.</param>
+            <response code="200">Lista (pode ser vazia).</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RelatorioController.Create(CarbonTrace.Application.DTOs.RelatorioRequest)">
+            <summary>
+            Cria um novo relatório.
+            </summary>
+            <param name="request">Dados do relatório.</param>
+            <response code="201">Relatório criado.</response>
+            <response code="400">Validação inválida.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RelatorioController.Update(System.Guid,CarbonTrace.Application.DTOs.RelatorioRequest)">
+            <summary>
+            Atualiza um relatório pelo Id.
+            </summary>
+            <param name="id">Identificador do relatório.</param>
+            <param name="request">Dados atualizados.</param>
+            <response code="200">Atualizado.</response>
+            <response code="400">Validação inválida.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.RelatorioController.Delete(System.Guid)">
+            <summary>
+            Remove um relatório pelo Id.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <response code="204">Removido.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="T:CarbonTrace.API.Controllers.SateliteController">
+            <summary>
+            Gerenciamento dos satélites utilizados no monitoramento.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.SateliteController.#ctor(CarbonTrace.Application.Services.Interfaces.ISateliteService)">
+            <summary>
+            Gerenciamento dos satélites utilizados no monitoramento.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.SateliteController.GetAll">
+            <summary>
+            Lista todos os satélites.
+            </summary>
+            <response code="200">Lista retornada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.SateliteController.GetById(System.Guid)">
+            <summary>
+            Obtém um satélite pelo Id.
+            </summary>
+            <param name="id">Identificador do satélite.</param>
+            <response code="200">Encontrado.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.SateliteController.Create(CarbonTrace.Application.DTOs.SateliteRequest)">
+            <summary>
+            Cria um novo satélite.
+            </summary>
+            <param name="request">Dados do satélite.</param>
+            <response code="201">Satélite criado.</response>
+            <response code="400">Validação inválida.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.SateliteController.Update(System.Guid,CarbonTrace.Application.DTOs.SateliteRequest)">
+            <summary>
+            Atualiza um satélite pelo Id.
+            </summary>
+            <param name="id">Identificador do satélite.</param>
+            <param name="request">Dados atualizados.</param>
+            <response code="200">Atualizado.</response>
+            <response code="400">Validação inválida.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.SateliteController.Delete(System.Guid)">
+            <summary>
+            Remove um satélite pelo Id.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <response code="204">Removido.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="T:CarbonTrace.API.Controllers.UsuarioController">
+            <summary>
+            Gerenciamento dos usuários do sistema CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.UsuarioController.#ctor(CarbonTrace.Application.Services.Interfaces.IUsuarioService)">
+            <summary>
+            Gerenciamento dos usuários do sistema CarbonTrace.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.UsuarioController.GetAll">
+            <summary>
+            Lista todos os usuários.
+            </summary>
+            <response code="200">Lista retornada.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.UsuarioController.GetById(System.Guid)">
+            <summary>
+            Obtém um usuário pelo Id.
+            </summary>
+            <param name="id">Identificador do usuário.</param>
+            <response code="200">Encontrado.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.UsuarioController.Create(CarbonTrace.Application.DTOs.UsuarioRequest)">
+            <summary>
+            Cria um novo usuário.
+            </summary>
+            <param name="request">Dados do usuário.</param>
+            <response code="201">Usuário criado.</response>
+            <response code="400">Validação inválida.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.UsuarioController.Update(System.Guid,CarbonTrace.Application.DTOs.UsuarioRequest)">
+            <summary>
+            Atualiza um usuário pelo Id.
+            </summary>
+            <param name="id">Identificador do usuário.</param>
+            <param name="request">Dados atualizados.</param>
+            <response code="200">Atualizado.</response>
+            <response code="400">Validação inválida.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="M:CarbonTrace.API.Controllers.UsuarioController.Delete(System.Guid)">
+            <summary>
+            Remove um usuário pelo Id.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <response code="204">Removido.</response>
+            <response code="404">Não encontrado.</response>
+        </member>
+        <member name="T:CarbonTrace.API.Extensions.CarbonTraceServiceCollectionExtensions">
+            <summary>
+            Extensões para registrar persistência e repositórios do CarbonTrace na injeção de dependências.
+            </summary>
+        </member>
+        <member name="M:CarbonTrace.API.Extensions.CarbonTraceServiceCollectionExtensions.AddCarbonTraceDbContext(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Registra o <see cref="T:CarbonTrace.Infrastructure.CarbonTraceContext"/> com Oracle.
+            </summary>
+            <param name="services">Coleção de serviços.</param>
+            <param name="configuration">Configuração da aplicação.</param>
+            <returns>A mesma instância para encadeamento.</returns>
+        </member>
+        <member name="M:CarbonTrace.API.Extensions.CarbonTraceServiceCollectionExtensions.AddCarbonTraceRepositories(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registra todos os repositórios como <c>Scoped</c>.
+            </summary>
+            <param name="services">Coleção de serviços.</param>
+            <returns>A mesma instância para encadeamento.</returns>
+        </member>
+        <member name="M:CarbonTrace.API.Extensions.CarbonTraceServiceCollectionExtensions.AddCarbonTraceApplicationServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registra todos os serviços de aplicação como <c>Scoped</c>.
+            </summary>
+            <param name="services">Coleção de serviços.</param>
+            <returns>A mesma instância para encadeamento.</returns>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Type)">
+            <summary>
+            Generates a documentation comment ID for a type.
+            Example: T:Namespace.Outer+Inner`1 becomes T:Namespace.Outer.Inner`1
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Reflection.PropertyInfo)">
+            <summary>
+            Generates a documentation comment ID for a property.
+            Example: P:Namespace.ContainingType.PropertyName or for an indexer P:Namespace.ContainingType.Item(System.Int32)
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Type,System.String)">
+            <summary>
+            Generates a documentation comment ID for a property given its container type and property name.
+            Example: P:Namespace.ContainingType.PropertyName
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Reflection.MethodInfo)">
+            <summary>
+            Generates a documentation comment ID for a method (or constructor).
+            For example:
+              M:Namespace.ContainingType.MethodName(ParamType1,ParamType2)~ReturnType
+              M:Namespace.ContainingType.#ctor(ParamType)
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.GetTypeDocId(System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            Generates a documentation ID string for a type.
+            This method handles nested types (replacing '+' with '.'),
+            generic types, arrays, pointers, by-ref types, and generic parameters.
+            The <paramref name="includeGenericArguments"/> flag controls whether
+            constructed generic type arguments are emitted, while <paramref name="omitGenericArity"/>
+            controls whether the generic arity marker (e.g. "`1") is appended.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.NormalizeDocId(System.String)">
+            <summary>
+            Normalizes a documentation comment ID to match the compiler-style format.
+            Strips the return type suffix for ordinary methods but retains it for conversion operators.
+            </summary>
+            <param name="docId">The documentation comment ID to normalize.</param>
+            <returns>The normalized documentation comment ID.</returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,12 @@
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\bin\Debug\net10.0\CarbonTrace.Domain.deps.json
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\bin\Debug\net10.0\CarbonTrace.Domain.dll
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\bin\Debug\net10.0\CarbonTrace.Domain.pdb
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\obj\Debug\net10.0\CarbonTrace.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\obj\Debug\net10.0\CarbonTrace.Domain.AssemblyInfoInputs.cache
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\obj\Debug\net10.0\CarbonTrace.Domain.AssemblyInfo.cs
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\obj\Debug\net10.0\CarbonTrace.Domain.csproj.CoreCompileInputs.cache
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\obj\Debug\net10.0\CarbonTrace.Domain.sourcelink.json
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\obj\Debug\net10.0\CarbonTrace.Domain.dll
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\obj\Debug\net10.0\refint\CarbonTrace.Domain.dll
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\obj\Debug\net10.0\CarbonTrace.Domain.pdb
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Domain\obj\Debug\net10.0\ref\CarbonTrace.Domain.dll

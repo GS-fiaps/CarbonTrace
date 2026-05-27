@@ -1,0 +1,16 @@
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\bin\Debug\net10.0\CarbonTrace.Application.deps.json
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\bin\Debug\net10.0\CarbonTrace.Application.dll
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\bin\Debug\net10.0\CarbonTrace.Application.pdb
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\bin\Debug\net10.0\CarbonTrace.Domain.dll
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\bin\Debug\net10.0\CarbonTrace.Domain.pdb
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\obj\Debug\net10.0\CarbonTrace.Application.csproj.AssemblyReference.cache
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\obj\Debug\net10.0\CarbonTrace.Application.GeneratedMSBuildEditorConfig.editorconfig
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\obj\Debug\net10.0\CarbonTrace.Application.AssemblyInfoInputs.cache
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\obj\Debug\net10.0\CarbonTrace.Application.AssemblyInfo.cs
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\obj\Debug\net10.0\CarbonTrace.Application.csproj.CoreCompileInputs.cache
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\obj\Debug\net10.0\CarbonTrace.Application.sourcelink.json
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\obj\Debug\net10.0\CarbonTr.56D8544E.Up2Date
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\obj\Debug\net10.0\CarbonTrace.Application.dll
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\obj\Debug\net10.0\refint\CarbonTrace.Application.dll
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\obj\Debug\net10.0\CarbonTrace.Application.pdb
+E:\2TDSPG\Global Solution\CarbonTrace\CarbonTrace.Application\obj\Debug\net10.0\ref\CarbonTrace.Application.dll
