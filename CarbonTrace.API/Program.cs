@@ -1,5 +1,6 @@
 using CarbonTrace.API.Extensions;
-
+using CarbonTrace.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCarbonTraceSwagger(builder.Configuration);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<CarbonTraceContext>();
+    db.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {
