@@ -164,7 +164,7 @@ TB_ESTADO ──────────── TB_REGIAO
 ### 1. Clone o repositório
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone https://github.com/GS-fiaps/CarbonTrace.git
 cd CarbonTrace
 ```
 
@@ -209,7 +209,7 @@ http://localhost:5222
 ### 1. Clone o repositório
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone https://github.com/GS-fiaps/CarbonTrace.git
 cd CarbonTrace
 ```
 
@@ -221,6 +221,8 @@ docker build -t carbontrace-api:v1 .
 
 # Build v2
 docker build -t carbontrace-api:v2 .
+
+docker build -t carbontrace-api:v3 .
 
 # Verificar usuário não root
 docker run --rm --entrypoint whoami carbontrace-api:v1
@@ -287,14 +289,17 @@ docker login
 # Build das imagens
 docker build -t carbontrace-api:v1 .
 docker build -t carbontrace-api:v2 .
+docker build -t carbontrace-api:v3 .
 
 # Tag e Push
 docker tag carbontrace-api:v1 pietrowilhelm/carbontrace-api:v1
 docker tag carbontrace-api:v2 pietrowilhelm/carbontrace-api:v2
+docker tag carbontrace-api:v3 pietrowilhelm/carbontrace-api:v3
 docker tag carbontrace-api:v1 pietrowilhelm/carbontrace-api:latest
 
 docker push pietrowilhelm/carbontrace-api:v1
 docker push pietrowilhelm/carbontrace-api:v2
+docker push pietrowilhelm/carbontrace-api:v3
 docker push pietrowilhelm/carbontrace-api:latest
 ```
 
@@ -311,7 +316,7 @@ chmod +x azure-cli.sh
 
 O script executa automaticamente:
 - Criação do Resource Group `rg-carbontrace-gs`
-- Criação da VM `vm-carbontrace-rm561378` (Standard_B4ls_v2, Ubuntu 22.04, brazilsouth)
+- Criação da VM `vm-carbontrace-rm561378` (Standard_B4ls_v2, Ubuntu 22.04, africasouthnorth)
 - Abertura das portas 22, 8080 e 1521
 - Instalação do Docker
 - Deploy dos containers via Docker Compose
@@ -368,20 +373,20 @@ SELECT * FROM CT_REGIAO;
 
 ```bash
 # GET
-curl http://IP_PUBLICO:8080/api/Estado
+curl http://IP_PUBLICO:8080/api/estado
 
 # POST
-curl -X POST http://IP_PUBLICO:8080/api/Estado \
+curl -X POST http://IP_PUBLICO:8080/api/estado \
   -H "Content-Type: application/json" \
   -d '{"nome": "São Paulo", "sigla": "SP"}'
 
 # PUT
-curl -X PUT http://IP_PUBLICO:8080/api/Estado/ID_AQUI \
+curl -X PUT http://IP_PUBLICO:8080/api/estado/ID_AQUI \
   -H "Content-Type: application/json" \
   -d '{"nome": "São Paulo Atualizado", "sigla": "SP"}'
 
 # DELETE
-curl -X DELETE http://IP_PUBLICO:8080/api/Estado/ID_AQUI
+curl -X DELETE http://IP_PUBLICO:8080/api/estado/ID_AQUI
 ```
 
 ### 8. Acesse o Swagger via IP público
@@ -413,7 +418,7 @@ http://IP_PUBLICO:8080
 → 10. Relatorio → 11. AlertaOrgao
 ```
 
-### POST /api/Estado
+### POST /api/estado
 
 ```json
 {
@@ -422,7 +427,7 @@ http://IP_PUBLICO:8080
 }
 ```
 
-### POST /api/Satelite
+### POST /api/satelite
 
 ```json
 {
@@ -433,7 +438,7 @@ http://IP_PUBLICO:8080
 }
 ```
 
-### POST /api/Usuario
+### POST /api/usuario
 
 ```json
 {
@@ -444,7 +449,7 @@ http://IP_PUBLICO:8080
 }
 ```
 
-### POST /api/Regiao
+### POST /api/regiao
 
 ```json
 {
@@ -456,7 +461,7 @@ http://IP_PUBLICO:8080
 }
 ```
 
-### POST /api/OrgaoAmbiental
+### POST /api/orgaoAmbiental
 
 ```json
 {
@@ -467,7 +472,7 @@ http://IP_PUBLICO:8080
 }
 ```
 
-### POST /api/ImagemSatelital
+### POST /api/imagemSatelital
 
 ```json
 {
@@ -479,7 +484,7 @@ http://IP_PUBLICO:8080
 }
 ```
 
-### POST /api/Analise
+### POST /api/analise
 
 ```json
 {
@@ -491,7 +496,7 @@ http://IP_PUBLICO:8080
 }
 ```
 
-### POST /api/Alerta
+### POST /api/alerta
 
 ```json
 {
@@ -501,7 +506,7 @@ http://IP_PUBLICO:8080
 }
 ```
 
-### POST /api/Ocorrencia
+### POST /api/ocorrencia
 
 ```json
 {
@@ -513,7 +518,7 @@ http://IP_PUBLICO:8080
 }
 ```
 
-### POST /api/Relatorio
+### POST /api/relatorio
 
 ```json
 {
@@ -524,7 +529,7 @@ http://IP_PUBLICO:8080
 }
 ```
 
-### POST /api/AlertaOrgao
+### POST /api/alertaOrgao
 
 ```json
 {
@@ -540,6 +545,10 @@ http://IP_PUBLICO:8080
 
 ```
 CarbonTrace/
+├── Dockerfile
+├── docker-compose.yml
+├── azure-cli.sh
+├── README.md  ← falta
 ├── Dockerfile
 ├── docker-compose.yml
 ├── azure-cli.sh
@@ -575,8 +584,9 @@ CarbonTrace/
 |---|---|
 | Repositório GitHub | 🔜 Adicionar link |
 | Docker Hub | [pietrowilhelm/carbontrace-api](https://hub.docker.com/r/pietrowilhelm/carbontrace-api) |
-| Swagger Local | `http://localhost:8080` |
-| Swagger Azure | `http://20.87.0.13:8080` |
+| Swagger Local (.NET) | `http://localhost:5222` |
+| Swagger Local (Docker) | `http://localhost:8080` |
+| Swagger Azure | `http://<IP_PUBLICO_VM>:8080` |
 | Vídeo Demonstração | 🔜 Em breve |
 | Vídeo Pitch | 🔜 Em breve |
 
