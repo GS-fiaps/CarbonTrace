@@ -69,8 +69,8 @@ Controller → Service → Repository → DbContext → Oracle Database
 
 ```
 ┌─────────────────────────────────────────────┐
-│              Azure VM (Ubuntu 22.04)         │
-│           Standard_B4ls_v2 — brazilsouth     │
+│              Azure VM (Ubuntu 22.04)        │
+│       Standard_B4ls_v2 — africasouthnorth   │
 │                                             │
 │  ┌──────────────────┐  ┌─────────────────┐  │
 │  │  carbontrace-api │  │  oracle-db      │  │
@@ -391,6 +391,17 @@ http://IP_PUBLICO:8080
 ```
 
 ---
+
+## 📌 Enums
+
+| Enum | Valores |
+|---|---|
+| TipoUsuario | `ADMIN` `ANALISTA` `FISCAL` |
+| TipoOrgao | `FEDERAL` `ESTADUAL` `MUNICIPAL` `ONG` |
+| StatusAlerta | `NORMAL` `ATENCAO` `CRITICO` `EMERGENCIA` |
+| NivelCriticidade | `BAIXO` `MEDIO` `ALTO` `CRITICO` |
+| StatusNotificacao | `PENDENTE` `ENVIADO` `CONFIRMADO` `FALHA` |
+
 
 ## 🧪 Exemplos de Teste
 
