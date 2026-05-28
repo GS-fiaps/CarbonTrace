@@ -1,7 +1,7 @@
 # 🌿 CarbonTrace — Monitoramento de Desmatamento via Satélite
 
 > **Global Solution 2026/1 — FIAP**
-> Disciplina: Advanced Business Development with .NET
+> Disciplina: Advanced Business Development with .NET | DevOps Tools & Cloud Computing
 > 2º Ano — Análise e Desenvolvimento de Sistemas — Turma 2TDSPG
 
 ---
@@ -65,12 +65,29 @@ CarbonTrace/
 Controller → Service → Repository → DbContext → Oracle Database
 ```
 
-### Por que Clean Architecture?
+### Arquitetura Macro (DevOps)
 
-- **Separação de responsabilidades** — cada camada tem uma responsabilidade clara
-- **Testabilidade** — as interfaces permitem mockar dependências
-- **Manutenibilidade** — mudanças em uma camada não afetam as outras
-- **Independência de framework** — a lógica de negócio não depende do EF Core ou ASP.NET
+```
+┌─────────────────────────────────────────────┐
+│              Azure VM (Ubuntu 22.04)         │
+│           Standard_B4ls_v2 — brazilsouth     │
+│                                             │
+│  ┌──────────────────┐  ┌─────────────────┐  │
+│  │  carbontrace-api │  │  oracle-db      │  │
+│  │  rm561378        │  │  rm561378       │  │
+│  │                  │  │                 │  │
+│  │  .NET 10         │  │  Oracle XE 21c  │  │
+│  │  porta 8080      │  │  porta 1521     │  │
+│  │  appuser         │  │  volume nomeado │  │
+│  └────────┬─────────┘  └────────┬────────┘  │
+│           │   carbontrace_net   │           │
+│           └─────────────────────┘           │
+└─────────────────────────────────────────────┘
+         ↑                    ↑
+    Docker Hub           gvenzl/oracle-xe
+  pietrowilhelm/            :21-slim
+  carbontrace-api
+```
 
 ---
 
@@ -128,19 +145,21 @@ TB_ESTADO ──────────── TB_REGIAO
 | ASP.NET Core | 10.0 | Web API |
 | Entity Framework Core | 10.0 | ORM |
 | Oracle EF Core | 10.23 | Provider Oracle |
-| Oracle Database | FIAP Cloud | Banco de dados |
+| Oracle Database XE | 21c | Banco de dados |
 | Swashbuckle | 10.1 | Swagger/OpenAPI |
-| Clean Architecture | — | Padrão arquitetural |
+| Docker | — | Conteinerização |
+| Docker Compose | — | Orquestração local |
+| Azure VM | Standard_B4ls_v2 | Infraestrutura em nuvem |
 
 ---
 
-## 🚀 Como Executar
+## 🚀 How To — Executar Localmente (.NET)
 
 ### Pré-requisitos
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - [EF Core Tools](https://docs.microsoft.com/ef/core/cli/dotnet)
-- Acesso ao Oracle FIAP
+- Acesso ao Oracle FIAP ou Oracle em container
 
 ### 1. Clone o repositório
 
@@ -151,7 +170,7 @@ cd CarbonTrace
 
 ### 2. Configure a connection string
 
-No arquivo `CarbonTrace.API/appsettings.json`, configure suas credenciais Oracle:
+No arquivo `CarbonTrace.API/appsettings.json`:
 
 ```json
 {
@@ -181,11 +200,201 @@ http://localhost:5222
 
 ---
 
+## 🐳 How To — Executar com Docker
+
+### Pré-requisitos
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+
+### 1. Clone o repositório
+
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd CarbonTrace
+```
+
+### 2. Build das imagens
+
+```bash
+# Build v1
+docker build -t carbontrace-api:v1 .
+
+# Build v2
+docker build -t carbontrace-api:v2 .
+
+# Verificar usuário não root
+docker run --rm --entrypoint whoami carbontrace-api:v1
+# Deve retornar: appuser
+```
+
+### 3. Subir os containers
+
+```bash
+docker compose up --build -d
+```
+
+### 4. Verificar status
+
+```bash
+# Status dos containers
+docker compose ps
+
+# Logs do Oracle (aguardar DATABASE IS READY TO USE!)
+docker logs oracle-db-rm561378 -f
+
+# Logs da API (aguardar Now listening on: http://[::]:8080)
+docker logs carbontrace-api-rm561378 -f
+```
+
+### 5. Verificar tabelas criadas automaticamente
+
+```bash
+docker exec -it oracle-db-rm561378 sqlplus carbontrace/carbontrace123@XEPDB1
+```
+
+```sql
+SELECT table_name FROM user_tables;
+```
+
+### 6. Acesse o Swagger
+
+```
+http://localhost:8080
+```
+
+### 7. Derrubar os containers
+
+```bash
+docker compose down
+```
+
+---
+
+## ☁️ How To — Deploy na Azure (DevOps)
+
+### Pré-requisitos
+
+- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- Conta no [Docker Hub](https://hub.docker.com)
+
+### 1. Build e Push para o Docker Hub
+
+```bash
+# Login no Docker Hub
+docker login
+
+# Build das imagens
+docker build -t carbontrace-api:v1 .
+docker build -t carbontrace-api:v2 .
+
+# Tag e Push
+docker tag carbontrace-api:v1 pietrowilhelm/carbontrace-api:v1
+docker tag carbontrace-api:v2 pietrowilhelm/carbontrace-api:v2
+docker tag carbontrace-api:v1 pietrowilhelm/carbontrace-api:latest
+
+docker push pietrowilhelm/carbontrace-api:v1
+docker push pietrowilhelm/carbontrace-api:v2
+docker push pietrowilhelm/carbontrace-api:latest
+```
+
+### 2. Provisionar a VM no Azure
+
+```bash
+# Login no Azure
+az login
+
+# Executar o script de provisionamento
+chmod +x azure-cli.sh
+./azure-cli.sh
+```
+
+O script executa automaticamente:
+- Criação do Resource Group `rg-carbontrace-gs`
+- Criação da VM `vm-carbontrace-rm561378` (Standard_B4ls_v2, Ubuntu 22.04, brazilsouth)
+- Abertura das portas 22, 8080 e 1521
+- Instalação do Docker
+- Deploy dos containers via Docker Compose
+
+### 3. Conectar na VM
+
+```bash
+ssh carbontrace@IP_PUBLICO_DA_VM
+# Senha: Fiap@20262026
+```
+
+### 4. Verificar containers na VM
+
+```bash
+cd /home/carbontrace/carbontrace
+
+# Status
+docker compose ps
+
+# Logs
+docker logs oracle-db-rm561378 --tail 50
+docker logs carbontrace-api-rm561378 --tail 50
+```
+
+### 5. Evidências obrigatórias
+
+```bash
+# Usuário e diretórios da API
+docker exec carbontrace-api-rm561378 whoami
+docker exec carbontrace-api-rm561378 ls -l
+docker exec carbontrace-api-rm561378 pwd
+
+# Usuário e diretórios do Oracle
+docker exec oracle-db-rm561378 whoami
+docker exec oracle-db-rm561378 ls -l
+
+# Volume nomeado
+docker volume ls
+```
+
+### 6. SELECT no Oracle para evidenciar persistência
+
+```bash
+docker exec -it oracle-db-rm561378 sqlplus carbontrace/carbontrace123@XEPDB1
+```
+
+```sql
+SELECT table_name FROM user_tables;
+SELECT * FROM CT_ESTADO;
+SELECT * FROM CT_REGIAO;
+```
+
+### 7. CRUD externo via IP público
+
+```bash
+# GET
+curl http://IP_PUBLICO:8080/api/Estado
+
+# POST
+curl -X POST http://IP_PUBLICO:8080/api/Estado \
+  -H "Content-Type: application/json" \
+  -d '{"nome": "São Paulo", "sigla": "SP"}'
+
+# PUT
+curl -X PUT http://IP_PUBLICO:8080/api/Estado/ID_AQUI \
+  -H "Content-Type: application/json" \
+  -d '{"nome": "São Paulo Atualizado", "sigla": "SP"}'
+
+# DELETE
+curl -X DELETE http://IP_PUBLICO:8080/api/Estado/ID_AQUI
+```
+
+### 8. Acesse o Swagger via IP público
+
+```
+http://IP_PUBLICO:8080
+```
+
+---
+
 ## 🧪 Exemplos de Teste
 
 ### Ordem recomendada para cadastro
-
-Siga esta ordem para evitar erros de FK:
 
 ```
 1. Estado → 2. Satelite → 3. Usuario → 4. Regiao → 5. OrgaoAmbiental
@@ -320,76 +529,31 @@ Siga esta ordem para evitar erros de FK:
 
 ```
 CarbonTrace/
+├── Dockerfile
+├── docker-compose.yml
+├── azure-cli.sh
 ├── CarbonTrace.API/
 │   ├── Controllers/
-│   │   ├── AlertaController.cs
-│   │   ├── AlertaOrgaoController.cs
-│   │   ├── AnaliseController.cs
-│   │   ├── EstadoController.cs
-│   │   ├── ImagemSatelitalController.cs
-│   │   ├── OcorrenciaController.cs
-│   │   ├── OrgaoAmbientalController.cs
-│   │   ├── RegiaoController.cs
-│   │   ├── RelatorioController.cs
-│   │   ├── SateliteController.cs
-│   │   └── UsuarioController.cs
 │   ├── Extensions/
-│   │   ├── CarbonTraceServiceCollectionExtensions.cs
-│   │   └── SwaggerServiceCollectionExtensions.cs
 │   ├── appsettings.json
 │   └── Program.cs
-│
 ├── CarbonTrace.Application/
 │   ├── DTOs/
-│   │   ├── AlertaRequest.cs / AlertaResponse.cs
-│   │   ├── AlertaOrgaoRequest.cs / AlertaOrgaoResponse.cs
-│   │   ├── AnaliseRequest.cs / AnaliseResponse.cs
-│   │   ├── EstadoRequest.cs / EstadoResponse.cs
-│   │   ├── ImagemSatelitalRequest.cs / ImagemSatelitalResponse.cs
-│   │   ├── OcorrenciaRequest.cs / OcorrenciaResponse.cs
-│   │   ├── OrgaoAmbientalRequest.cs / OrgaoAmbientalResponse.cs
-│   │   ├── RegiaoRequest.cs / RegiaoResponse.cs
-│   │   ├── RelatorioRequest.cs / RelatorioResponse.cs
-│   │   ├── SateliteRequest.cs / SateliteResponse.cs
-│   │   └── UsuarioRequest.cs / UsuarioResponse.cs
 │   ├── Repositories/
-│   │   └── (interfaces de repositório)
 │   └── Services/
 │       ├── Implementations/
 │       └── Interfaces/
-│
 ├── CarbonTrace.Domain/
 │   ├── Common/
 │   │   └── BaseEntity.cs
 │   ├── Entities/
-│   │   ├── Alerta.cs
-│   │   ├── AlertaOrgao.cs
-│   │   ├── Analise.cs
-│   │   ├── Estado.cs
-│   │   ├── ImagemSatelital.cs
-│   │   ├── Ocorrencia.cs
-│   │   ├── OrgaoAmbiental.cs
-│   │   ├── Regiao.cs
-│   │   ├── Relatorio.cs
-│   │   ├── Satelite.cs
-│   │   └── Usuario.cs
 │   └── Enums/
-│       ├── NivelCriticidade.cs
-│       ├── StatusAlerta.cs
-│       ├── StatusNotificacao.cs
-│       ├── TipoOrgao.cs
-│       └── TipoUsuario.cs
-│
 └── CarbonTrace.Infrastructure/
     └── Persistence/
         ├── Configurations/
-        │   └── (configurações EF Core por entidade)
         ├── Repositories/
-        │   ├── Repository.cs (base)
-        │   └── (implementações por entidade)
         ├── Migrations/
-        ├── CarbonTraceContext.cs
-        └── CarbonTraceContextFactory.cs
+        └── CarbonTraceContext.cs
 ```
 
 ---
@@ -399,8 +563,9 @@ CarbonTrace/
 | Recurso | Link |
 |---|---|
 | Repositório GitHub | 🔜 Adicionar link |
-| Swagger UI | `http://localhost:5222` |
-| Documentação API | `http://localhost:5222/swagger/v1/swagger.json` |
+| Docker Hub | [pietrowilhelm/carbontrace-api](https://hub.docker.com/r/pietrowilhelm/carbontrace-api) |
+| Swagger Local | `http://localhost:8080` |
+| Swagger Azure | `http://20.87.0.13:8080` |
 | Vídeo Demonstração | 🔜 Em breve |
 | Vídeo Pitch | 🔜 Em breve |
 
