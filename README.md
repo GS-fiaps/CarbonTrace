@@ -69,8 +69,8 @@ Controller → Service → Repository → DbContext → Oracle Database
 
 ```
 ┌─────────────────────────────────────────────┐
-│              Azure VM (Ubuntu 22.04)         │
-│           Standard_B4ls_v2 — brazilsouth     │
+│              Azure VM (Ubuntu 22.04)        │
+│       Standard_B4ls_v2 — africasouthnorth   │
 │                                             │
 │  ┌──────────────────┐  ┌─────────────────┐  │
 │  │  carbontrace-api │  │  oracle-db      │  │
