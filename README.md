@@ -392,6 +392,17 @@ http://IP_PUBLICO:8080
 
 ---
 
+## 📌 Enums
+
+| Enum | Valores |
+|---|---|
+| TipoUsuario | `ADMIN` `ANALISTA` `FISCAL` |
+| TipoOrgao | `FEDERAL` `ESTADUAL` `MUNICIPAL` `ONG` |
+| StatusAlerta | `NORMAL` `ATENCAO` `CRITICO` `EMERGENCIA` |
+| NivelCriticidade | `BAIXO` `MEDIO` `ALTO` `CRITICO` |
+| StatusNotificacao | `PENDENTE` `ENVIADO` `CONFIRMADO` `FALHA` |
+
+
 ## 🧪 Exemplos de Teste
 
 ### Ordem recomendada para cadastro
