@@ -15,6 +15,12 @@ builder.Services.AddControllers()
             new System.Text.Json.Serialization.JsonStringEnumConverter());
     });
 
+builder.Services.AddRouting(options =>
+{
+    options.LowercaseUrls = true;
+    options.LowercaseQueryStrings = true;
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCarbonTraceSwagger(builder.Configuration);
 
