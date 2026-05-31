@@ -7,7 +7,8 @@ namespace CarbonTrace.Application.Services.Implementations;
 /// <summary>
 /// Orquestra os casos de uso de ocorrência.
 /// </summary>
-public sealed class OcorrenciaService(IOcorrenciaRepository ocorrenciaRepository) : IOcorrenciaService
+public sealed class OcorrenciaService(IOcorrenciaRepository ocorrenciaRepository, 
+    IUsuarioRepository usuarioRepository, IRegiaoRepository regiaoRepository) : IOcorrenciaService
 {
     /// <inheritdoc />
     public IReadOnlyList<OcorrenciaResponse> GetAll()
@@ -43,6 +44,12 @@ public sealed class OcorrenciaService(IOcorrenciaRepository ocorrenciaRepository
     /// <inheritdoc />
     public OcorrenciaResponse Create(OcorrenciaRequest request)
     {
+        if (!regiaoRepository.ExistsById(request.IdRegiao))
+            throw new InvalidOperationException("Região não encontrada.");
+
+        if (!usuarioRepository.ExistsById(request.IdUsuario))
+            throw new InvalidOperationException("Usuário não encontrado.");
+
         var ocorrencia = request.ToDomain();
         ocorrenciaRepository.Add(ocorrencia);
         return OcorrenciaResponse.FromDomain(ocorrencia);
@@ -54,6 +61,13 @@ public sealed class OcorrenciaService(IOcorrenciaRepository ocorrenciaRepository
         var ocorrencia = ocorrenciaRepository.GetById(id);
         if (ocorrencia is null)
             return null;
+
+        if (!regiaoRepository.ExistsById(request.IdRegiao))
+            throw new InvalidOperationException("Região não encontrada.");
+
+        if (!usuarioRepository.ExistsById(request.IdUsuario))
+            throw new InvalidOperationException("Usuário não encontrado.");
+
         ocorrencia.Update(request.DataOcorrencia, request.Descricao, request.AreaEstimadaKm2);
         ocorrenciaRepository.Update(ocorrencia);
         return OcorrenciaResponse.FromDomain(ocorrencia);

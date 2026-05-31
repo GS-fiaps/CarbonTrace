@@ -65,8 +65,15 @@ public class ImagemSatelitalController(IImagemSatelitalService imagemService) : 
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var imagem = imagemService.Create(request);
-        return Ok(imagem);
+        try
+        {
+            var imagem = imagemService.Create(request);
+            return Ok(imagem);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
     
     /// <summary>
@@ -85,11 +92,19 @@ public class ImagemSatelitalController(IImagemSatelitalService imagemService) : 
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var imagem = imagemService.Update(id, request);
-        if (imagem is null)
-            return NotFound();
-        return Ok(imagem);
+        try
+        {
+            var imagem = imagemService.Update(id, request);
+            if (imagem is null)
+                return NotFound();
+            return Ok(imagem);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
+
     
     /// <summary>
     /// Remove uma imagem satelital pelo Id.

@@ -7,7 +7,7 @@ namespace CarbonTrace.Application.Services.Implementations;
 /// <summary>
 /// Orquestra os casos de uso de análise.
 /// </summary>
-public sealed class AnaliseService(IAnaliseRepository analiseRepository) : IAnaliseService
+public sealed class AnaliseService(IAnaliseRepository analiseRepository, IImagemSatelitalRepository imagemSatelitalRepository) : IAnaliseService
 {
     /// <inheritdoc />
     public IReadOnlyList<AnaliseResponse> GetAll()
@@ -35,17 +35,24 @@ public sealed class AnaliseService(IAnaliseRepository analiseRepository) : IAnal
     /// <inheritdoc />
     public AnaliseResponse Create(AnaliseRequest request)
     {
+        if (!imagemSatelitalRepository.ExistsById(request.IdImagem))
+            throw new InvalidOperationException("Imagem satelital não encontrada.");
+
         var analise = request.ToDomain();
         analiseRepository.Add(analise);
         return AnaliseResponse.FromDomain(analise);
     }
-
+    
     /// <inheritdoc />
     public AnaliseResponse? Update(Guid id, AnaliseRequest request)
     {
         var analise = analiseRepository.GetById(id);
         if (analise is null)
             return null;
+
+        if (!imagemSatelitalRepository.ExistsById(request.IdImagem))
+            throw new InvalidOperationException("Imagem satelital não encontrada.");
+
         analise.Update(request.DataAnalise, request.AreaDesmatadaKm2, request.PercentualVariacao, request.StatusAlerta);
         analiseRepository.Update(analise);
         return AnaliseResponse.FromDomain(analise);

@@ -65,8 +65,15 @@ public class RegiaoController(IRegiaoService regiaoService) : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var regiao = regiaoService.Create(request);
-        return Ok(regiao);
+        try
+        {
+            var regiao = regiaoService.Create(request);
+            return Ok(regiao);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -85,10 +92,17 @@ public class RegiaoController(IRegiaoService regiaoService) : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var regiao = regiaoService.Update(id, request);
-        if (regiao is null)
-            return NotFound();
-        return Ok(regiao);
+        try
+        {
+            var regiao = regiaoService.Update(id, request);
+            if (regiao is null)
+                return NotFound();
+            return Ok(regiao);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
     
     /// <summary>

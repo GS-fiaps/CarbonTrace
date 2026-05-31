@@ -27,16 +27,25 @@ public sealed class EstadoService(IEstadoRepository estadoRepository) : IEstadoS
     /// <inheritdoc />
     public EstadoResponse Create(EstadoRequest request)
     {
+        if (estadoRepository.GetBySigla(request.Sigla.Trim().ToUpperInvariant()) is not null)
+            throw new InvalidOperationException($"Já existe um estado com a sigla '{request.Sigla}'.");
+
         var estado = request.ToDomain();
         estadoRepository.Add(estado);
         return EstadoResponse.FromDomain(estado);
     }
-
+    
+    /// <inheritdoc />
     public EstadoResponse? Update(Guid id, EstadoRequest request)
     {
         var estado = estadoRepository.GetById(id);
         if (estado is null)
             return null;
+
+        var existente = estadoRepository.GetBySigla(request.Sigla.Trim().ToUpperInvariant());
+        if (existente is not null && existente.Id != id)
+            throw new InvalidOperationException($"Já existe um estado com a sigla '{request.Sigla}'.");
+
         estado.Update(request.Nome, request.Sigla);
         estadoRepository.Update(estado);
         return EstadoResponse.FromDomain(estado);

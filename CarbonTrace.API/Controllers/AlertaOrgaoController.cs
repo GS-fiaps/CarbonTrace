@@ -77,8 +77,15 @@ public class AlertaOrgaoController(IAlertaOrgaoService alertaOrgaoService) : Con
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var alertaOrgao = alertaOrgaoService.Create(request);
-        return Ok(alertaOrgao);
+        try
+        {
+            var alertaOrgao = alertaOrgaoService.Create(request);
+            return Ok(alertaOrgao);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -97,10 +104,17 @@ public class AlertaOrgaoController(IAlertaOrgaoService alertaOrgaoService) : Con
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var alertaOrgao = alertaOrgaoService.Update(id, request);
-        if (alertaOrgao is null)
-            return NotFound();
-        return Ok(alertaOrgao);
+        try
+        {
+            var alertaOrgao = alertaOrgaoService.Update(id, request);
+            if (alertaOrgao is null)
+                return NotFound();
+            return Ok(alertaOrgao);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
     
     /// <summary>

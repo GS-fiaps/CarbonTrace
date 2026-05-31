@@ -53,8 +53,15 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var usuario = usuarioService.Create(request);
-        return Ok(usuario);
+        try
+        {
+            var usuario = usuarioService.Create(request);
+            return Ok(usuario);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -73,10 +80,17 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var usuario = usuarioService.Update(id, request);
-        if (usuario is null)
-            return NotFound();
-        return Ok(usuario);
+        try
+        {
+            var usuario = usuarioService.Update(id, request);
+            if (usuario is null)
+                return NotFound();
+            return Ok(usuario);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
     
     /// <summary>

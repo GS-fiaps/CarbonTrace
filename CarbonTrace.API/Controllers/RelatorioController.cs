@@ -65,8 +65,15 @@ public class RelatorioController(IRelatorioService relatorioService) : Controlle
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var relatorio = relatorioService.Create(request);
-        return Ok(relatorio);
+        try
+        {
+            var relatorio = relatorioService.Create(request);
+            return Ok(relatorio);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -85,12 +92,18 @@ public class RelatorioController(IRelatorioService relatorioService) : Controlle
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var relatorio = relatorioService.Update(id, request);
-        if (relatorio is null)
-            return NotFound();
-        return Ok(relatorio);
+        try
+        {
+            var relatorio = relatorioService.Update(id, request);
+            if (relatorio is null)
+                return NotFound();
+            return Ok(relatorio);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
-    
     /// <summary>
     /// Remove um relatório pelo Id.
     /// </summary>

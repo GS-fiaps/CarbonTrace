@@ -65,8 +65,15 @@ public class OrgaoAmbientalController(IOrgaoAmbientalService orgaoService) : Con
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var orgao = orgaoService.Create(request);
-        return Ok(orgao);
+        try
+        {
+            var orgao = orgaoService.Create(request);
+            return Ok(orgao);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -85,10 +92,17 @@ public class OrgaoAmbientalController(IOrgaoAmbientalService orgaoService) : Con
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var orgao = orgaoService.Update(id, request);
-        if (orgao is null)
-            return NotFound();
-        return Ok(orgao);
+        try
+        {
+            var orgao = orgaoService.Update(id, request);
+            if (orgao is null)
+                return NotFound();
+            return Ok(orgao);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
     
     /// <summary>

@@ -77,8 +77,15 @@ public class OcorrenciaController(IOcorrenciaService ocorrenciaService) : Contro
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var ocorrencia = ocorrenciaService.Create(request);
-        return Ok(ocorrencia);
+        try
+        {
+            var ocorrencia = ocorrenciaService.Create(request);
+            return Ok(ocorrencia);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -97,10 +104,17 @@ public class OcorrenciaController(IOcorrenciaService ocorrenciaService) : Contro
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var ocorrencia = ocorrenciaService.Update(id, request);
-        if (ocorrencia is null)
-            return NotFound();
-        return Ok(ocorrencia);
+        try
+        {
+            var ocorrencia = ocorrenciaService.Update(id, request);
+            if (ocorrencia is null)
+                return NotFound();
+            return Ok(ocorrencia);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
     
     /// <summary>

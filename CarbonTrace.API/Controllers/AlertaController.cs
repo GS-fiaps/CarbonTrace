@@ -65,8 +65,15 @@ public class AlertaController(IAlertaService alertaService) : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var alerta = alertaService.Create(request);
-        return Ok(alerta);
+        try
+        {
+            var alerta = alertaService.Create(request);
+            return Ok(alerta);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -85,11 +92,19 @@ public class AlertaController(IAlertaService alertaService) : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var alerta = alertaService.Update(id, request);
-        if (alerta is null)
-            return NotFound();
-        return Ok(alerta);
+        try
+        {
+            var alerta = alertaService.Update(id, request);
+            if (alerta is null)
+                return NotFound();
+            return Ok(alerta);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
+
     
     /// <summary>
     /// Remove um alerta pelo Id.

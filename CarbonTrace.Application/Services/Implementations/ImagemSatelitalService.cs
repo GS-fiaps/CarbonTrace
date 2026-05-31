@@ -7,7 +7,8 @@ namespace CarbonTrace.Application.Services.Implementations;
 /// <summary>
 /// Orquestra os casos de uso de imagem satelital.
 /// </summary>
-public sealed class ImagemSatelitalService(IImagemSatelitalRepository imagemRepository) : IImagemSatelitalService
+public sealed class ImagemSatelitalService(IImagemSatelitalRepository imagemRepository, 
+    IRegiaoRepository regiaoRepository, ISateliteRepository sateliteRepository) : IImagemSatelitalService
 {
     /// <inheritdoc />
     public IReadOnlyList<ImagemSatelitalResponse> GetAll()
@@ -35,17 +36,29 @@ public sealed class ImagemSatelitalService(IImagemSatelitalRepository imagemRepo
     /// <inheritdoc />
     public ImagemSatelitalResponse Create(ImagemSatelitalRequest request)
     {
+        if (!regiaoRepository.ExistsById(request.IdRegiao))
+            throw new InvalidOperationException("Região não encontrada.");
+
+        if (!sateliteRepository.ExistsById(request.IdSatelite))
+            throw new InvalidOperationException("Satélite não encontrado.");
+
         var imagem = request.ToDomain();
         imagemRepository.Add(imagem);
         return ImagemSatelitalResponse.FromDomain(imagem);
     }
 
-    /// <inheritdoc />
     public ImagemSatelitalResponse? Update(Guid id, ImagemSatelitalRequest request)
     {
         var imagem = imagemRepository.GetById(id);
         if (imagem is null)
             return null;
+
+        if (!regiaoRepository.ExistsById(request.IdRegiao))
+            throw new InvalidOperationException("Região não encontrada.");
+
+        if (!sateliteRepository.ExistsById(request.IdSatelite))
+            throw new InvalidOperationException("Satélite não encontrado.");
+
         imagem.Update(request.DataCaptura, request.ResolucaoMetros, request.UrlImagem);
         imagemRepository.Update(imagem);
         return ImagemSatelitalResponse.FromDomain(imagem);

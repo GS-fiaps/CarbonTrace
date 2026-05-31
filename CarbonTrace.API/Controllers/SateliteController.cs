@@ -53,9 +53,17 @@ public class SateliteController(ISateliteService sateliteService) : ControllerBa
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var satelite = sateliteService.Create(request);
-        return Ok(satelite);
+        try
+        {
+            var satelite = sateliteService.Create(request);
+            return Ok(satelite);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
+
 
     /// <summary>
     /// Atualiza um satélite pelo Id.
@@ -73,10 +81,17 @@ public class SateliteController(ISateliteService sateliteService) : ControllerBa
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var satelite = sateliteService.Update(id, request);
-        if (satelite is null)
-            return NotFound();
-        return Ok(satelite);
+        try
+        {
+            var satelite = sateliteService.Update(id, request);
+            if (satelite is null)
+                return NotFound();
+            return Ok(satelite);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
     
     /// <summary>

@@ -7,7 +7,8 @@ namespace CarbonTrace.Application.Services.Implementations;
 /// <summary>
 /// Orquestra os casos de uso de notificação alerta-órgão.
 /// </summary>
-public sealed class AlertaOrgaoService(IAlertaOrgaoRepository alertaOrgaoRepository) : IAlertaOrgaoService
+public sealed class AlertaOrgaoService(IAlertaOrgaoRepository alertaOrgaoRepository, 
+    IAlertaRepository alertaRepository, IOrgaoAmbientalRepository orgaoAmbientalRepository) : IAlertaOrgaoService
 {
     /// <inheritdoc />
     public IReadOnlyList<AlertaOrgaoResponse> GetAll()
@@ -43,17 +44,36 @@ public sealed class AlertaOrgaoService(IAlertaOrgaoRepository alertaOrgaoReposit
     /// <inheritdoc />
     public AlertaOrgaoResponse Create(AlertaOrgaoRequest request)
     {
+        if (!alertaRepository.ExistsById(request.IdAlerta))
+            throw new InvalidOperationException("Alerta não encontrado.");
+
+        if (!orgaoAmbientalRepository.ExistsById(request.IdOrgao))
+            throw new InvalidOperationException("Órgão ambiental não encontrado.");
+
+        var duplicata = alertaOrgaoRepository.GetByAlerta(request.IdAlerta)
+            .Any(ao => ao.IdOrgao == request.IdOrgao);
+        if (duplicata)
+            throw new InvalidOperationException("Este órgão já foi notificado para este alerta.");
+
         var alertaOrgao = request.ToDomain();
         alertaOrgaoRepository.Add(alertaOrgao);
         return AlertaOrgaoResponse.FromDomain(alertaOrgao);
     }
-
+    
+    
     /// <inheritdoc />
     public AlertaOrgaoResponse? Update(Guid id, AlertaOrgaoRequest request)
     {
         var alertaOrgao = alertaOrgaoRepository.GetById(id);
         if (alertaOrgao is null)
             return null;
+
+        if (!alertaRepository.ExistsById(request.IdAlerta))
+            throw new InvalidOperationException("Alerta não encontrado.");
+
+        if (!orgaoAmbientalRepository.ExistsById(request.IdOrgao))
+            throw new InvalidOperationException("Órgão ambiental não encontrado.");
+
         alertaOrgao.Update(request.StatusNotificacao);
         alertaOrgaoRepository.Update(alertaOrgao);
         return AlertaOrgaoResponse.FromDomain(alertaOrgao);

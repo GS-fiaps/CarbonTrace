@@ -54,10 +54,17 @@ public class EstadoController(IEstadoService estadoService) : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var estado = estadoService.Create(request);
-        return Ok(estado);
+
+        try
+        {
+            var estado = estadoService.Create(request);
+            return Ok(estado);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
-    
     
     /// <summary>
     /// Atualiza um estado pelo Id.
@@ -75,10 +82,18 @@ public class EstadoController(IEstadoService estadoService) : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var estado = estadoService.Update(id, request);
-        if (estado is null)
-            return NotFound();
-        return Ok(estado);
+
+        try
+        {
+            var estado = estadoService.Update(id, request);
+            if (estado is null)
+                return NotFound();
+            return Ok(estado);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
     
     /// <summary>

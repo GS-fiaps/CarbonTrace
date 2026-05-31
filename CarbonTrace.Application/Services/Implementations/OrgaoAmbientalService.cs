@@ -7,7 +7,7 @@ namespace CarbonTrace.Application.Services.Implementations;
 /// <summary>
 /// Orquestra os casos de uso de órgão ambiental.
 /// </summary>
-public sealed class OrgaoAmbientalService(IOrgaoAmbientalRepository orgaoRepository) : IOrgaoAmbientalService
+public sealed class OrgaoAmbientalService(IOrgaoAmbientalRepository orgaoRepository, IEstadoRepository estadoRepository) : IOrgaoAmbientalService
 {
     /// <inheritdoc />
     public IReadOnlyList<OrgaoAmbientalResponse> GetAll()
@@ -35,17 +35,24 @@ public sealed class OrgaoAmbientalService(IOrgaoAmbientalRepository orgaoReposit
     /// <inheritdoc />
     public OrgaoAmbientalResponse Create(OrgaoAmbientalRequest request)
     {
+        if (!estadoRepository.ExistsById(request.IdEstado))
+            throw new InvalidOperationException("Estado não encontrado.");
+
         var orgao = request.ToDomain();
         orgaoRepository.Add(orgao);
         return OrgaoAmbientalResponse.FromDomain(orgao);
     }
-
+    
     /// <inheritdoc />
     public OrgaoAmbientalResponse? Update(Guid id, OrgaoAmbientalRequest request)
     {
         var orgao = orgaoRepository.GetById(id);
         if (orgao is null)
             return null;
+
+        if (!estadoRepository.ExistsById(request.IdEstado))
+            throw new InvalidOperationException("Estado não encontrado.");
+
         orgao.Update(request.Nome, request.Tipo, request.EmailContato);
         orgaoRepository.Update(orgao);
         return OrgaoAmbientalResponse.FromDomain(orgao);

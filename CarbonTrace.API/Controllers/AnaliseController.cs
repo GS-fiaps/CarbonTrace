@@ -65,8 +65,15 @@ public class AnaliseController(IAnaliseService analiseService) : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var analise = analiseService.Create(request);
-        return Ok(analise);
+        try
+        {
+            var analise = analiseService.Create(request);
+            return Ok(analise);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -85,10 +92,17 @@ public class AnaliseController(IAnaliseService analiseService) : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var analise = analiseService.Update(id, request);
-        if (analise is null)
-            return NotFound();
-        return Ok(analise);
+        try
+        {
+            var analise = analiseService.Update(id, request);
+            if (analise is null)
+                return NotFound();
+            return Ok(analise);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
     
     /// <summary>
