@@ -38,6 +38,7 @@ public class Repository<T>(CarbonTraceContext context) : IRepository<T> where T 
     public IReadOnlyList<T> GetAll()
     {
         return _set
+            .Where(e => e.Active)
             .OrderBy(e => e.CreatedAt)
             .ToList();
     }
@@ -63,7 +64,9 @@ public class Repository<T>(CarbonTraceContext context) : IRepository<T> where T 
         var entity = GetById(id);
         if (entity is null)
             return false;
-        _set.Remove(entity);
+
+        entity.Active = false;
+        _set.Update(entity);
         Context.SaveChanges();
         return true;
     }
