@@ -13,7 +13,7 @@ public class Repository<T>(CarbonTraceContext context) : IRepository<T> where T 
     /// <inheritdoc />
     public bool ExistsById(Guid id)
     {
-        return _set.Any(e => e.Id == id);
+        return _set.FirstOrDefault(e => e.Id == id) is not null;
     }
 
     private void ThrowIfMainNameNotMapped()

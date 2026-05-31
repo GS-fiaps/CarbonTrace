@@ -19,6 +19,6 @@ public class UsuarioRepository(CarbonTraceContext context) : Repository<Usuario>
     public bool ExistsByEmail(string email)
     {
         return Context.Usuarios
-            .Any(u => u.Email.Equals(email, StringComparison.CurrentCultureIgnoreCase));
+            .FirstOrDefault(u => u.Email.ToLower() == email.ToLower()) is not null;
     }
 }
