@@ -36,7 +36,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: pietrowilhelm/carbontrace-api:v1
+    image: pietrowilhelm/carbontrace-api:v3
     container_name: carbontrace-api-rm561378
     ports:
       - "8080:8080"
