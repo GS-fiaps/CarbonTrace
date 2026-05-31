@@ -23,6 +23,7 @@
   - [⚙️ Tecnologias DevOps](#️-tecnologias-devops)
   - [🐳 How To — Executar com Docker](#-how-to--executar-com-docker)
   - [☁️ How To — Deploy na Azure](#️-how-to--deploy-na-azure)
+  - [👀 Print da deleção da VM](#print-da-deleção-da-vm)
 - [📁 Estrutura do Projeto](#-estrutura-do-projeto)
 - [🔗 Links](#-links)
 
@@ -381,6 +382,8 @@ http://localhost:5222
   carbontrace-api
 ```
 
+<img width="1296" height="1036" alt="Screenshot 2026-05-31 184817" src="https://github.com/user-attachments/assets/7c28622d-fdbf-44b9-abaa-ea92890dc84b" />
+
 ---
 
 ## ⚙️ Tecnologias DevOps
@@ -591,6 +594,10 @@ curl -X DELETE http://IP_PUBLICO:8080/api/estado/ID_AQUI
 ```
 http://IP_PUBLICO:8080
 ```
+--- 
+## Print da deleção da VM
+<img width="2472" height="1212" alt="image" src="https://github.com/user-attachments/assets/97a22067-1cdd-44b8-abcc-32c7b16c4237" />
+
 
 ---
 
