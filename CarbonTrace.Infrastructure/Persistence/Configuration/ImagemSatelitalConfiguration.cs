@@ -50,16 +50,16 @@ public sealed class ImagemSatelitalConfiguration : IEntityTypeConfiguration<Imag
         builder.HasOne(i => i.Regiao)
             .WithMany(r => r.ImagensSatelitais)
             .HasForeignKey(i => i.IdRegiao)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(i => i.Satelite)
             .WithMany(s => s.ImagensSatelitais)
             .HasForeignKey(i => i.IdSatelite)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(i => i.Analises)
             .WithOne(a => a.ImagemSatelital)
             .HasForeignKey(a => a.IdImagem)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -49,16 +49,16 @@ public sealed class RegiaoConfiguration : IEntityTypeConfiguration<Regiao>
         builder.HasOne(r => r.Estado)
             .WithMany(e => e.Regioes)
             .HasForeignKey(r => r.IdEstado)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(r => r.ImagensSatelitais)
             .WithOne(i => i.Regiao)
             .HasForeignKey(i => i.IdRegiao)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(r => r.Ocorrencias)
             .WithOne(o => o.Regiao)
             .HasForeignKey(o => o.IdRegiao)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

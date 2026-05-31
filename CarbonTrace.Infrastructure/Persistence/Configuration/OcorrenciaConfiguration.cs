@@ -50,11 +50,11 @@ public sealed class OcorrenciaConfiguration : IEntityTypeConfiguration<Ocorrenci
         builder.HasOne(o => o.Regiao)
             .WithMany(r => r.Ocorrencias)
             .HasForeignKey(o => o.IdRegiao)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(o => o.Usuario)
             .WithMany(u => u.Ocorrencias)
             .HasForeignKey(o => o.IdUsuario)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

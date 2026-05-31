@@ -47,11 +47,11 @@ public sealed class AlertaConfiguration : IEntityTypeConfiguration<Alerta>
         builder.HasOne(a => a.Analise)
             .WithMany(an => an.Alertas)
             .HasForeignKey(a => a.IdAnalise)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(a => a.AlertasOrgaos)
             .WithOne(ao => ao.Alerta)
             .HasForeignKey(ao => ao.IdAlerta)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

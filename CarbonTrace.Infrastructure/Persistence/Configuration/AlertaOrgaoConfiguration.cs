@@ -47,12 +47,12 @@ public sealed class AlertaOrgaoConfiguration : IEntityTypeConfiguration<AlertaOr
         builder.HasOne(ao => ao.Alerta)
             .WithMany(a => a.AlertasOrgaos)
             .HasForeignKey(ao => ao.IdAlerta)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(ao => ao.OrgaoAmbiental)
             .WithMany(o => o.AlertasOrgaos)
             .HasForeignKey(ao => ao.IdOrgao)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasIndex(ao => new { ao.IdAlerta, ao.IdOrgao })
             .IsUnique();

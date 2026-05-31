@@ -50,11 +50,11 @@ public sealed class AnaliseConfiguration : IEntityTypeConfiguration<Analise>
         builder.HasOne(a => a.ImagemSatelital)
             .WithMany(i => i.Analises)
             .HasForeignKey(a => a.IdImagem)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(a => a.Alertas)
             .WithOne(al => al.Analise)
             .HasForeignKey(al => al.IdAnalise)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

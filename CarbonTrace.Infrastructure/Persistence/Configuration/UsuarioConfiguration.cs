@@ -55,11 +55,11 @@ public sealed class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
         builder.HasMany(u => u.Ocorrencias)
             .WithOne(o => o.Usuario)
             .HasForeignKey(o => o.IdUsuario)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(u => u.Relatorios)
             .WithOne(r => r.Usuario)
             .HasForeignKey(r => r.IdUsuario)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

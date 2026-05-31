@@ -45,6 +45,6 @@ public sealed class SateliteConfiguration : IEntityTypeConfiguration<Satelite>
         builder.HasMany(s => s.ImagensSatelitais)
             .WithOne(i => i.Satelite)
             .HasForeignKey(i => i.IdSatelite)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

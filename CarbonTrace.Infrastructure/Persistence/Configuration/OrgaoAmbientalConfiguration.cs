@@ -48,11 +48,11 @@ public sealed class OrgaoAmbientalConfiguration : IEntityTypeConfiguration<Orgao
         builder.HasOne(o => o.Estado)
             .WithMany(e => e.OrgaosAmbientais)
             .HasForeignKey(o => o.IdEstado)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(o => o.AlertasOrgaos)
             .WithOne(ao => ao.OrgaoAmbiental)
             .HasForeignKey(ao => ao.IdOrgao)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

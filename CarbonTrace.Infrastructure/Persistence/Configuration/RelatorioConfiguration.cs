@@ -49,6 +49,6 @@ public sealed class RelatorioConfiguration : IEntityTypeConfiguration<Relatorio>
         builder.HasOne(r => r.Usuario)
             .WithMany(u => u.Relatorios)
             .HasForeignKey(r => r.IdUsuario)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

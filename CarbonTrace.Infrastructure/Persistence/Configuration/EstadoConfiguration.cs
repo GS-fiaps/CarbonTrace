@@ -40,11 +40,11 @@ public sealed class EstadoConfiguration : IEntityTypeConfiguration<Estado>
         builder.HasMany(e => e.Regioes)
             .WithOne(r => r.Estado)
             .HasForeignKey(r => r.IdEstado)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(e => e.OrgaosAmbientais)
             .WithOne(o => o.Estado)
             .HasForeignKey(o => o.IdEstado)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
