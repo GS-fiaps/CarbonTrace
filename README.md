@@ -6,6 +6,28 @@
 
 ---
 
+## 📑 Sumário
+
+- [👥 Integrantes](#-integrantes)
+- [📽️ Vídeos](#️-vídeos)
+- [📋 Sobre o Projeto](#-sobre-o-projeto)
+- [🔷 .NET — Advanced Business Development](#-net--advanced-business-development)
+  - [🏗️ Arquitetura](#️-arquitetura)
+  - [🗄️ Banco de Dados e Relacionamentos](#️-banco-de-dados-e-relacionamentos)
+  - [⚙️ Tecnologias .NET](#️-tecnologias-net)
+  - [📌 Enums](#-enums)
+  - [🧪 Exemplos de Teste](#-exemplos-de-teste)
+  - [🚀 How To — Executar Localmente (.NET)](#-how-to--executar-localmente-net)
+- [🐳 DevOps — Docker & Azure](#-devops--docker--azure)
+  - [🏛️ Arquitetura Macro](#️-arquitetura-macro)
+  - [⚙️ Tecnologias DevOps](#️-tecnologias-devops)
+  - [🐳 How To — Executar com Docker](#-how-to--executar-com-docker)
+  - [☁️ How To — Deploy na Azure](#️-how-to--deploy-na-azure)
+- [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+- [🔗 Links](#-links)
+
+---
+
 ## 👥 Integrantes
 
 | Nome | RM | Turma |
@@ -47,6 +69,10 @@ O CarbonTrace conecta a exploração espacial — através de satélites como La
 
 ---
 
+# 🔷 .NET — Advanced Business Development
+
+---
+
 ## 🏗️ Arquitetura
 
 O projeto segue os princípios do **Clean Architecture**, dividido em 4 camadas:
@@ -65,29 +91,12 @@ CarbonTrace/
 Controller → Service → Repository → DbContext → Oracle Database
 ```
 
-### Arquitetura Macro (DevOps)
+### Por que Clean Architecture?
 
-```
-┌─────────────────────────────────────────────┐
-│              Azure VM (Ubuntu 22.04)        │
-│       Standard_B4ls_v2 — africasouthnorth   │
-│                                             │
-│  ┌──────────────────┐  ┌─────────────────┐  │
-│  │  carbontrace-api │  │  oracle-db      │  │
-│  │  rm561378        │  │  rm561378       │  │
-│  │                  │  │                 │  │
-│  │  .NET 10         │  │  Oracle XE 21c  │  │
-│  │  porta 8080      │  │  porta 1521     │  │
-│  │  appuser         │  │  volume nomeado │  │
-│  └────────┬─────────┘  └────────┬────────┘  │
-│           │   carbontrace_net   │           │
-│           └─────────────────────┘           │
-└─────────────────────────────────────────────┘
-         ↑                    ↑
-    Docker Hub           gvenzl/oracle-xe
-  pietrowilhelm/            :21-slim
-  carbontrace-api
-```
+- **Separação de responsabilidades** — cada camada tem uma responsabilidade clara
+- **Testabilidade** — as interfaces permitem mockar dependências
+- **Manutenibilidade** — mudanças em uma camada não afetam as outras
+- **Independência de framework** — a lógica de negócio não depende do EF Core ou ASP.NET
 
 ---
 
@@ -96,14 +105,14 @@ Controller → Service → Repository → DbContext → Oracle Database
 ### Modelo Relacional
 
 ```
-TB_ESTADO ──────────── TB_REGIAO
+CT_ESTADO ──────────── CT_REGIAO
     │                      │
-    └── TB_ORGAO_AMBIENTAL  ├── TB_IMAGEM_SATELITAL ── TB_ANALISE ── TB_ALERTA
+    └── CT_ORGAO_AMBIENTAL  ├── CT_IMAGEM_SATELITAL ── CT_ANALISE ── CT_ALERTA
                            │         │                                    │
-                           │    TB_SATELITE                    TB_ALERTA_ORGAO
+                           │    CT_SATELITE                    CT_ALERTA_ORGAO
                            │                                        │
-                           ├── TB_OCORRENCIA ── TB_USUARIO ─────────┘
-                           └── TB_RELATORIO
+                           ├── CT_OCORRENCIA ── CT_USUARIO ─────────┘
+                           └── CT_RELATORIO
 ```
 
 ### Tabelas
@@ -122,34 +131,178 @@ TB_ESTADO ──────────── TB_REGIAO
 | CT_RELATORIO | Relatórios gerenciais gerados |
 | CT_ALERTA_ORGAO | Relação N:N entre alertas e órgãos |
 
-### Relacionamentos implementados
+### Relacionamentos Implementados
 
-- `CT_ESTADO` **1:N** `CT_REGIAO`
-- `CT_ESTADO` **1:N** `CT_ORGAO_AMBIENTAL`
-- `CT_SATELITE` **1:N** `CT_IMAGEM_SATELITAL`
-- `CT_REGIAO` **1:N** `CT_IMAGEM_SATELITAL`
-- `CT_REGIAO` **1:N** `CT_OCORRENCIA`
-- `CT_IMAGEM_SATELITAL` **1:N** `CT_ANALISE`
-- `CT_ANALISE` **1:N** `CT_ALERTA`
-- `CT_ALERTA` **N:N** `CT_ORGAO_AMBIENTAL` (via `CT_ALERTA_ORGAO`)
-- `CT_USUARIO` **1:N** `CT_OCORRENCIA`
-- `CT_USUARIO` **1:N** `CT_RELATORIO`
+| Relação | Tipo | Comportamento |
+|---|---|---|
+| CT_ESTADO → CT_REGIAO | 1:N | Cascade Delete |
+| CT_ESTADO → CT_ORGAO_AMBIENTAL | 1:N | Cascade Delete |
+| CT_SATELITE → CT_IMAGEM_SATELITAL | 1:N | Cascade Delete |
+| CT_REGIAO → CT_IMAGEM_SATELITAL | 1:N | Cascade Delete |
+| CT_REGIAO → CT_OCORRENCIA | 1:N | Cascade Delete |
+| CT_IMAGEM_SATELITAL → CT_ANALISE | 1:N | Cascade Delete |
+| CT_ANALISE → CT_ALERTA | 1:N | Cascade Delete |
+| CT_ALERTA → CT_ALERTA_ORGAO | N:N | Cascade Delete |
+| CT_USUARIO → CT_OCORRENCIA | 1:N | Cascade Delete |
+| CT_USUARIO → CT_RELATORIO | 1:N | Cascade Delete |
 
 ---
 
-## ⚙️ Tecnologias Utilizadas
+## ⚙️ Tecnologias .NET
 
 | Tecnologia | Versão | Uso |
 |---|---|---|
 | .NET | 10.0 | Framework principal |
 | ASP.NET Core | 10.0 | Web API |
-| Entity Framework Core | 10.0 | ORM |
+| Entity Framework Core | 10.0 | ORM (Code First) |
 | Oracle EF Core | 10.23 | Provider Oracle |
-| Oracle Database XE | 21c | Banco de dados |
+| Oracle Database | FIAP Cloud | Banco de dados |
 | Swashbuckle | 10.1 | Swagger/OpenAPI |
-| Docker | — | Conteinerização |
-| Docker Compose | — | Orquestração local |
-| Azure VM | Standard_B4ls_v2 | Infraestrutura em nuvem |
+
+---
+
+## 📌 Enums
+
+| Enum | Valores |
+|---|---|
+| TipoUsuario | `ADMIN` `ANALISTA` `FISCAL` |
+| TipoOrgao | `FEDERAL` `ESTADUAL` `MUNICIPAL` `ONG` |
+| StatusAlerta | `NORMAL` `ATENCAO` `CRITICO` `EMERGENCIA` |
+| NivelCriticidade | `BAIXO` `MEDIO` `ALTO` `CRITICO` |
+| StatusNotificacao | `PENDENTE` `ENVIADO` `CONFIRMADO` `FALHA` |
+
+---
+
+## 🧪 Exemplos de Teste
+
+### Ordem recomendada para cadastro
+
+```
+1. Estado → 2. Satelite → 3. Usuario → 4. Regiao → 5. OrgaoAmbiental
+→ 6. ImagemSatelital → 7. Analise → 8. Alerta → 9. Ocorrencia
+→ 10. Relatorio → 11. AlertaOrgao
+```
+
+### POST /api/estado
+
+```json
+{
+  "nome": "São Paulo",
+  "sigla": "SP"
+}
+```
+
+### POST /api/satelite
+
+```json
+{
+  "nome": "Landsat 8",
+  "agencia": "NASA",
+  "altitudeKm": 705.0,
+  "anoLancamento": 2013
+}
+```
+
+### POST /api/usuario
+
+```json
+{
+  "nome": "Carlos Silva",
+  "email": "carlos.silva@carbontrace.com",
+  "senha": "senha123",
+  "tipoUsuario": "ADMIN"
+}
+```
+
+### POST /api/regiao
+
+```json
+{
+  "nome": "Amazônia Central",
+  "latitude": -3.465305,
+  "longitude": -62.215881,
+  "areaKm2": 15420.50,
+  "idEstado": "ID_DO_ESTADO_CRIADO"
+}
+```
+
+### POST /api/orgaoambiental
+
+```json
+{
+  "nome": "IBAMA Regional Amazonas",
+  "tipo": "FEDERAL",
+  "emailContato": "ibama.am@ibama.gov.br",
+  "idEstado": "ID_DO_ESTADO_CRIADO"
+}
+```
+
+### POST /api/imagemsatelital
+
+```json
+{
+  "dataCaptura": "2024-01-05T00:00:00",
+  "resolucaoMetros": 30.0,
+  "urlImagem": "https://satelite.carbontrace.com/img/2024/01/regiao1.tif",
+  "idRegiao": "ID_DA_REGIAO_CRIADA",
+  "idSatelite": "ID_DO_SATELITE_CRIADO"
+}
+```
+
+### POST /api/analise
+
+```json
+{
+  "dataAnalise": "2024-01-06T00:00:00",
+  "areaDesmatadaKm2": 125.50,
+  "percentualVariacao": 2.30,
+  "statusAlerta": "NORMAL",
+  "idImagem": "ID_DA_IMAGEM_CRIADA"
+}
+```
+
+### POST /api/alerta
+
+```json
+{
+  "nivelCriticidade": "ALTO",
+  "descricao": "Área crítica de desmatamento identificada no sul do Amazonas.",
+  "idAnalise": "ID_DA_ANALISE_CRIADA"
+}
+```
+
+### POST /api/ocorrencia
+
+```json
+{
+  "dataOcorrencia": "2024-01-20T00:00:00",
+  "descricao": "Queimada identificada próxima à reserva indígena.",
+  "areaEstimadaKm2": 45.80,
+  "idRegiao": "ID_DA_REGIAO_CRIADA",
+  "idUsuario": "ID_DO_USUARIO_CRIADO"
+}
+```
+
+### POST /api/relatorio
+
+```json
+{
+  "titulo": "Relatório de Desmatamento - Janeiro 2024",
+  "periodoInicio": "2024-01-01T00:00:00",
+  "periodoFim": "2024-01-31T00:00:00",
+  "idUsuario": "ID_DO_USUARIO_CRIADO"
+}
+```
+
+### POST /api/alertaorgao
+
+```json
+{
+  "idAlerta": "ID_DO_ALERTA_CRIADO",
+  "idOrgao": "ID_DO_ORGAO_CRIADO",
+  "statusNotificacao": "PENDENTE"
+}
+```
 
 ---
 
@@ -159,7 +312,7 @@ TB_ESTADO ──────────── TB_REGIAO
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - [EF Core Tools](https://docs.microsoft.com/ef/core/cli/dotnet)
-- Acesso ao Oracle FIAP ou Oracle em container
+- Acesso ao Oracle FIAP
 
 ### 1. Clone o repositório
 
@@ -200,6 +353,49 @@ http://localhost:5222
 
 ---
 
+# 🐳 DevOps — Docker & Azure
+
+---
+
+## 🏛️ Arquitetura Macro
+
+```
+┌─────────────────────────────────────────────┐
+│              Azure VM (Ubuntu 22.04)        │
+│       Standard_B4ls_v2 — africasouthnorth   │
+│                                             │
+│  ┌──────────────────┐  ┌─────────────────┐  │
+│  │  carbontrace-api │  │  oracle-db      │  │
+│  │  rm561378        │  │  rm561378       │  │
+│  │                  │  │                 │  │
+│  │  .NET 10         │  │  Oracle XE 21c  │  │
+│  │  porta 8080      │  │  porta 1521     │  │
+│  │  appuser         │  │  volume nomeado │  │
+│  └────────┬─────────┘  └────────┬────────┘  │
+│           │   carbontrace_net   │           │
+│           └─────────────────────┘           │
+└─────────────────────────────────────────────┘
+         ↑                    ↑
+    Docker Hub           gvenzl/oracle-xe
+  pietrowilhelm/            :21-slim
+  carbontrace-api
+```
+
+---
+
+## ⚙️ Tecnologias DevOps
+
+| Tecnologia | Versão | Uso |
+|---|---|---|
+| Docker | — | Conteinerização |
+| Docker Compose | — | Orquestração local |
+| Oracle XE | 21c slim | Banco em container |
+| Azure VM | Standard_B4ls_v2 | Infraestrutura em nuvem |
+| Ubuntu | 22.04 | Sistema operacional da VM |
+| Docker Hub | — | Registry de imagens |
+
+---
+
 ## 🐳 How To — Executar com Docker
 
 ### Pré-requisitos
@@ -222,6 +418,7 @@ docker build -t carbontrace-api:v1 .
 # Build v2
 docker build -t carbontrace-api:v2 .
 
+# Build v3
 docker build -t carbontrace-api:v3 .
 
 # Verificar usuário não root
@@ -272,7 +469,7 @@ docker compose down
 
 ---
 
-## ☁️ How To — Deploy na Azure (DevOps)
+## ☁️ How To — Deploy na Azure
 
 ### Pré-requisitos
 
@@ -295,7 +492,7 @@ docker build -t carbontrace-api:v3 .
 docker tag carbontrace-api:v1 pietrowilhelm/carbontrace-api:v1
 docker tag carbontrace-api:v2 pietrowilhelm/carbontrace-api:v2
 docker tag carbontrace-api:v3 pietrowilhelm/carbontrace-api:v3
-docker tag carbontrace-api:v1 pietrowilhelm/carbontrace-api:latest
+docker tag carbontrace-api:v3 pietrowilhelm/carbontrace-api:latest
 
 docker push pietrowilhelm/carbontrace-api:v1
 docker push pietrowilhelm/carbontrace-api:v2
@@ -397,150 +594,6 @@ http://IP_PUBLICO:8080
 
 ---
 
-## 📌 Enums
-
-| Enum | Valores |
-|---|---|
-| TipoUsuario | `ADMIN` `ANALISTA` `FISCAL` |
-| TipoOrgao | `FEDERAL` `ESTADUAL` `MUNICIPAL` `ONG` |
-| StatusAlerta | `NORMAL` `ATENCAO` `CRITICO` `EMERGENCIA` |
-| NivelCriticidade | `BAIXO` `MEDIO` `ALTO` `CRITICO` |
-| StatusNotificacao | `PENDENTE` `ENVIADO` `CONFIRMADO` `FALHA` |
-
-
-## 🧪 Exemplos de Teste
-
-### Ordem recomendada para cadastro
-
-```
-1. Estado → 2. Satelite → 3. Usuario → 4. Regiao → 5. OrgaoAmbiental
-→ 6. ImagemSatelital → 7. Analise → 8. Alerta → 9. Ocorrencia
-→ 10. Relatorio → 11. AlertaOrgao
-```
-
-### POST /api/estado
-
-```json
-{
-  "nome": "São Paulo",
-  "sigla": "SP"
-}
-```
-
-### POST /api/satelite
-
-```json
-{
-  "nome": "Landsat 8",
-  "agencia": "NASA",
-  "altitudeKm": 705.0,
-  "anoLancamento": 2013
-}
-```
-
-### POST /api/usuario
-
-```json
-{
-  "nome": "Carlos Silva",
-  "email": "carlos.silva@carbontrace.com",
-  "senha": "senha123",
-  "tipoUsuario": "ADMIN"
-}
-```
-
-### POST /api/regiao
-
-```json
-{
-  "nome": "Amazônia Central",
-  "latitude": -3.465305,
-  "longitude": -62.215881,
-  "areaKm2": 15420.50,
-  "idEstado": "ID_DO_ESTADO_CRIADO"
-}
-```
-
-### POST /api/orgaoAmbiental
-
-```json
-{
-  "nome": "IBAMA Regional Amazonas",
-  "tipo": "FEDERAL",
-  "emailContato": "ibama.am@ibama.gov.br",
-  "idEstado": "ID_DO_ESTADO_CRIADO"
-}
-```
-
-### POST /api/imagemSatelital
-
-```json
-{
-  "dataCaptura": "2024-01-05T00:00:00",
-  "resolucaoMetros": 30.0,
-  "urlImagem": "https://satelite.carbontrace.com/img/2024/01/regiao1.tif",
-  "idRegiao": "ID_DA_REGIAO_CRIADA",
-  "idSatelite": "ID_DO_SATELITE_CRIADO"
-}
-```
-
-### POST /api/analise
-
-```json
-{
-  "dataAnalise": "2024-01-06T00:00:00",
-  "areaDesmatadaKm2": 125.50,
-  "percentualVariacao": 2.30,
-  "statusAlerta": "NORMAL",
-  "idImagem": "ID_DA_IMAGEM_CRIADA"
-}
-```
-
-### POST /api/alerta
-
-```json
-{
-  "nivelCriticidade": "ALTO",
-  "descricao": "Área crítica de desmatamento identificada no sul do Amazonas.",
-  "idAnalise": "ID_DA_ANALISE_CRIADA"
-}
-```
-
-### POST /api/ocorrencia
-
-```json
-{
-  "dataOcorrencia": "2024-01-20T00:00:00",
-  "descricao": "Queimada identificada próxima à reserva indígena.",
-  "areaEstimadaKm2": 45.80,
-  "idRegiao": "ID_DA_REGIAO_CRIADA",
-  "idUsuario": "ID_DO_USUARIO_CRIADO"
-}
-```
-
-### POST /api/relatorio
-
-```json
-{
-  "titulo": "Relatório de Desmatamento - Janeiro 2024",
-  "periodoInicio": "2024-01-01T00:00:00",
-  "periodoFim": "2024-01-31T00:00:00",
-  "idUsuario": "ID_DO_USUARIO_CRIADO"
-}
-```
-
-### POST /api/alertaOrgao
-
-```json
-{
-  "idAlerta": "ID_DO_ALERTA_CRIADO",
-  "idOrgao": "ID_DO_ORGAO_CRIADO",
-  "statusNotificacao": "PENDENTE"
-}
-```
-
----
-
 ## 📁 Estrutura do Projeto
 
 ```
@@ -548,10 +601,7 @@ CarbonTrace/
 ├── Dockerfile
 ├── docker-compose.yml
 ├── azure-cli.sh
-├── README.md  ← falta
-├── Dockerfile
-├── docker-compose.yml
-├── azure-cli.sh
+├── README.md
 ├── CarbonTrace.API/
 │   ├── Controllers/
 │   ├── Extensions/
