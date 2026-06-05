@@ -45,7 +45,7 @@
 
 | Tipo | Link |
 |---|---|
-| Demonstração (máx. 8 min) | 🔜 Em breve |
+| Demonstração (máx. 8 min) | https://youtu.be/_VhyF755t3E |
 | Video Pitch (máx. 3 min) | 🔜 Em breve |
 
 ---
