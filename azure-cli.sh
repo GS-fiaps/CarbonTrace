@@ -34,7 +34,7 @@ ADMIN_USER="carbontrace"
 ADMIN_PASSWORD="Fiap@20262026"
 DOCKERHUB_USER="pietrowilhelm"
 APP_IMAGE="carbontrace-api"
-IMAGE_TAG="v1"
+IMAGE_TAG="v3"
 
 echo "=============================================="
 echo " Provisionando infraestrutura CarbonTrace"
