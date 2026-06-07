@@ -635,16 +635,15 @@ CarbonTrace/
 
 ---
 
-## 🔗 Links
+## 🔗 Links Devops
 
 | Recurso | Link |
 |---|---|
-| Repositório GitHub | 🔜 Adicionar link |
 | Docker Hub | [pietrowilhelm/carbontrace-api](https://hub.docker.com/r/pietrowilhelm/carbontrace-api) |
 | Swagger Local (.NET) | `http://localhost:5222` |
 | Swagger Local (Docker) | `http://localhost:8080` |
 | Swagger Azure | `http://<IP_PUBLICO_VM>:8080` |
-| Vídeo Demonstração | 🔜 Em breve |
+| Vídeo Demonstração | https://youtu.be/eKFMGC3LkDE |
 | Vídeo Pitch | 🔜 Em breve |
 
 ---
