@@ -46,7 +46,7 @@
 | Tipo | Link |
 |---|---|
 | Demonstração (máx. 8 min) | https://youtu.be/_VhyF755t3E |
-| Video Pitch (máx. 3 min) | 🔜 Em breve |
+| Video Pitch (máx. 3 min) | https://www.youtube.com/watch?v=CYeMi10KvSs |
 
 ---
 
@@ -644,7 +644,7 @@ CarbonTrace/
 | Swagger Local (Docker) | `http://localhost:8080` |
 | Swagger Azure | `http://<IP_PUBLICO_VM>:8080` |
 | Vídeo Demonstração | https://youtu.be/eKFMGC3LkDE |
-| Vídeo Pitch | 🔜 Em breve |
+| Vídeo Pitch | https://www.youtube.com/watch?v=CYeMi10KvSs |
 
 ---
 
